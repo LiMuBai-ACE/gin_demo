@@ -1,8 +1,8 @@
-package controller
+package v1
 
 import (
 	"fmt"
-	"gin_demo/common"
+	"gin_demo/config"
 	"gin_demo/model"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
@@ -13,7 +13,7 @@ import (
 
 func Reginster(ctx *gin.Context) {
 	//使用DB实例
-	DB := common.GetDB()
+	DB := config.GetDB()
 	//	获取参数
 	name := ctx.PostForm("name")
 	telephone := ctx.PostForm("telephone")
