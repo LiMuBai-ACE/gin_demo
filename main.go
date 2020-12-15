@@ -15,4 +15,5 @@ func main() {
 	r := gin.Default()
 	r = routes.CollectRoute(r)
 	panic(r.Run()) // 监听并在 0.0.0.0:8080 上启动服务
+
 }
