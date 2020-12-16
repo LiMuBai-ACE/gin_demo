@@ -1,11 +1,22 @@
 package routes
 
 import (
-	"gin_demo/controller/v1"
+	"gin_demo/config"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-func CollectRoute(r *gin.Engine) *gin.Engine {
-	r.POST("/api/auth/register", v1.Reginster)
-	return r
+func InitRouter(){
+	gin.SetMode(config.AppMode)
+	r := gin.Default()
+	router := r.Group("api/v1")
+	{
+		router.GET("/hello", func(c *gin.Context) {
+				c.JSON(http.StatusOK,gin.H{
+					"code":200,
+					"mag": "成功",
+				})
+		})
+	}
+	panic(r.Run(config.HttpPort))
 }
