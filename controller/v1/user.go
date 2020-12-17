@@ -29,7 +29,8 @@ func AddUser(c *gin.Context) {
 
 	code = model.CheckUser(data.Email)
 
-	data.Username = data.Email // 邮箱默认为用户昵称
+	data.Username = data.Email                     // 邮箱默认为用户昵称
+	data.Password = utils.ScryptStr(data.Password) // 密码加密
 
 	//数据创建成功
 	if code == errmsg.SUCCSE {
@@ -39,10 +40,10 @@ func AddUser(c *gin.Context) {
 			"data":   data,
 			"msg":    errmsg.GetErrmsg(code),
 		})
+		return
 	}
-
 	//数据未创建成功
-	if code == errmsg.ERROR {
+	if code == errmsg.ERROR_USERNAME_USED {
 		code = errmsg.ERROR_USERNAME_USED
 		c.JSON(http.StatusOK, gin.H{
 			"status": code,
