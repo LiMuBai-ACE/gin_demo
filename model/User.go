@@ -1,11 +1,47 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"gin_demo/utils/errmsg"
+	"github.com/jinzhu/gorm"
+)
 
+//结构体值类型
 type User struct {
 	gorm.Model
-	Username      string `gorm:"type:varchar(20);not null" json:"username"`
-	Password string `gorm:"type:type:varchar(20);not null" json:"password"`
-	Phone string `gorm:"type:type:varchar(20);not null" json:"phone"`
-	Role  string `gorm:"type:type:int" json:"role"`
+	Username string `gorm:"type:varchar(20);" json:"username"`
+	Email    string `gorm:"type:varchar(20);not null" json:"email"`
+	Password string `gorm:"type:varchar(20);not null" json:"password"`
+	Phone    string `gorm:"type:varchar(20);" json:"phone"`
+	Role     int    `gorm:"type:int" json:"role"`
+}
+
+//查询用户是否存在
+func CheckUser(email string) (code int) {
+	var users User
+	//First 查出第一个参数
+	Db.Select("id").Where("email = ?", email).First(&users)
+	if users.ID > 0 {
+		return errmsg.ERROR_USERNAME_USED
+	}
+	return errmsg.SUCCSE
+}
+
+//新增用户
+func CreateUser(data *User) int {
+	err := Db.Create(&data).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}
+
+//查询用户列表
+func GetUserList(pageSize int, PageNum int) []User {
+	var users []User
+	//一页多少个
+	err := Db.Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&users).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil
+	}
+	return users
 }

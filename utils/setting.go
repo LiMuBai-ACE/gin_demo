@@ -1,4 +1,4 @@
-package config
+package utils
 
 import (
 	"fmt"
@@ -16,7 +16,6 @@ var (
 	DbPassWord string
 	DbName     string
 )
-
 
 func init() {
 	file, err := ini.Load("config/config.ini")
