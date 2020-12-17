@@ -1,14 +1,14 @@
 package main
 
 import (
+	"gin_demo/model"
 	"gin_demo/routes"
-	"gin_demo/utils"
 )
 
-func main(){
+func main() {
 
 	//引用数据库 自动创建表
-	utils.InitDB()
+	model.InitDB()
 
 	routes.InitRouter()
 }
