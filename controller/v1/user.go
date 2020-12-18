@@ -88,9 +88,11 @@ func EditUser(c *gin.Context) {
 
 //删除用户信息
 func DeleteUser(c *gin.Context) {
-	fmt.Println(c.PostForm("id"), c.Query("id"))
-	return
-	id, _ := strconv.Atoi(c.PostForm("id"))
+	var idObj struct {
+		Id string `json:"id"`
+	}
+	c.ShouldBindJSON(&idObj)
+	id, _ := strconv.Atoi(idObj.Id)
 	fmt.Println(id)
 	//是否传入正确id
 	if id == 0 {
