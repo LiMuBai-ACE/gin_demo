@@ -15,23 +15,19 @@ type User struct {
 	Role     int    `gorm:"type:int" json:"role"`
 }
 
-//根据id查询用户是否存在
-func CheckUserId(id int) User {
-	var user User
-	//First 查出第一个参数
-	Db.Where("id = ?", id).First(&user)
-	return user
-}
+var user User
 
-//查询用户是否存在
-func CheckUser(email string) (code int) {
-	var users User
+//查询用户是否存在 并返回
+func CheckUser(email string, id int) (user User, error interface{}) {
 	//First 查出第一个参数
-	Db.Select("id").Where("email = ?", email).First(&users)
-	if users.ID > 0 {
-		return errmsg.ERROR_USERNAME_USED
+	if email != "" {
+		Db.Select("id").Where("email = ?", email).First(&user)
+	} else if id != 0 {
+		Db.Where("id = ?", id).First(&user)
+	} else {
+		return user, "error"
 	}
-	return errmsg.SUCCSE
+	return user, nil
 }
 
 //新增用户
