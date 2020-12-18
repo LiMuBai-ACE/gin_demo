@@ -15,6 +15,14 @@ type User struct {
 	Role     int    `gorm:"type:int" json:"role"`
 }
 
+//根据id查询用户是否存在
+func CheckUserId(id int) User {
+	var user User
+	//First 查出第一个参数
+	Db.Where("id = ?", id).First(&user)
+	return user
+}
+
 //查询用户是否存在
 func CheckUser(email string) (code int) {
 	var users User
@@ -44,4 +52,15 @@ func GetUserList(pageSize int, PageNum int) []User {
 		return nil
 	}
 	return users
+}
+
+//删除用户
+func DeleteUser(id int) int {
+	var user User
+	//软删除
+	err := Db.Where("id = ?", id).Delete(&user).Error
+	if err != nil {
+		return errmsg.ERROR_USER_NOT_EXIST
+	}
+	return errmsg.SUCCSE
 }
