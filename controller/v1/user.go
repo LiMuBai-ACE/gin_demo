@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"gin_demo/model"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
@@ -10,10 +11,10 @@ import (
 )
 
 var code int
-var user model.User
 
 //添加用户
 func AddUser(c *gin.Context) {
+	var user model.User
 	_ = c.ShouldBindJSON(&user)
 
 	//验证邮箱账号
@@ -27,7 +28,7 @@ func AddUser(c *gin.Context) {
 		return
 	}
 	//根据邮箱查询用户是否存在
-	data, _ := model.CheckUser(user.Email, 0)
+	data, _ := model.CheckUser(user.Email, 0, "")
 
 	//用户已存在
 	if data.ID > 0 {
@@ -70,7 +71,7 @@ func GetUser(c *gin.Context) {
 	email := c.Query("email")
 
 	if id != 0 {
-		data, _ := model.CheckUser("", id)
+		data, _ := model.CheckUser("", id, "")
 		if data.ID > 0 {
 			code = errmsg.SUCCSE
 			c.JSON(http.StatusOK, gin.H{
@@ -89,7 +90,7 @@ func GetUser(c *gin.Context) {
 		return
 	}
 	if email != "" {
-		data, _ := model.CheckUser(email, 0)
+		data, _ := model.CheckUser(email, 0, "")
 		if data.ID > 0 {
 			code = errmsg.SUCCSE
 			c.JSON(http.StatusOK, gin.H{
@@ -139,6 +140,36 @@ func GetUserList(c *gin.Context) {
 
 //修改用户信息
 func EditUser(c *gin.Context) {
+	var params struct {
+		model.User
+		ID string
+	}
+	c.ShouldBindJSON(&params)
+	// 验证用户是否存在
+	user, _ := model.CheckUser("", 0, params.Username)
+	if user.ID > 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"code":   errmsg.GetErrmsg(errmsg.ERROR),
+			"msg":    "该昵称已被使用,请更换其他昵称修改!",
+			"status": errmsg.ERROR,
+		})
+		return
+	}
+	id, _ := strconv.Atoi(params.ID)
+	fmt.Printf("%#v", id)
+	code = model.EditUser(id, &params.User)
+	if code == errmsg.ERROR {
+		c.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
+		})
+		return
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
+		})
+	}
 }
 
 //删除用户信息
@@ -158,7 +189,7 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 	//查询id 查看用户是否存在
-	data, _ := model.CheckUser("", id)
+	data, _ := model.CheckUser("", id, "")
 	// 未查询用户
 	if data.ID == 0 {
 		c.JSON(http.StatusOK, gin.H{

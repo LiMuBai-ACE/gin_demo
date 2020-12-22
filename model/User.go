@@ -8,22 +8,23 @@ import (
 //结构体值类型
 type User struct {
 	gorm.Model
-	Username string `gorm:"type:varchar(20);" json:"username"`
-	Email    string `gorm:"type:varchar(20);not null" json:"email"`
-	Password string `gorm:"type:varchar(20);not null" json:"password"`
-	Phone    string `gorm:"type:varchar(20);" json:"phone"`
-	Role     int    `gorm:"type:int" json:"role"`
+	Username string `gorm:"type:varchar(20);comment:'昵称'" json:"username"`
+	Email    string `gorm:"type:varchar(20);not null;comment:'电子邮箱'" json:"email"`
+	Password string `gorm:"type:varchar(20);not null;comment:'密码'" json:"password"`
+	Phone    string `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
+	Role     int    `gorm:"type:int;comment:'权限'" json:"role"`
 }
 
-var user User
-
 //查询用户是否存在 并返回
-func CheckUser(email string, id int) (user User, error interface{}) {
+func CheckUser(email string, id int, username string) (data User, error interface{}) {
+	var user User
 	//First 查出第一个参数
 	if email != "" {
 		Db.Select("id").Where("email = ?", email).First(&user)
 	} else if id != 0 {
 		Db.Where("id = ?", id).First(&user)
+	} else if username != "" {
+		Db.Select("id").Where("username = ?", username).First(&user)
 	} else {
 		return user, "error"
 	}
@@ -57,6 +58,20 @@ func DeleteUser(id int) int {
 	err := Db.Where("id = ?", id).Delete(&user).Error
 	if err != nil {
 		return errmsg.ERROR_USER_NOT_EXIST
+	}
+	return errmsg.SUCCSE
+}
+
+//修改用户
+func EditUser(id int, data *User) int {
+	var user User
+	var userMaps = make(map[string]interface{})
+	userMaps["username"] = data.Username
+	userMaps["phone"] = data.Phone
+	userMaps["role"] = data.Role
+	err := Db.Model(&user).Where("id = ?", id).Updates(userMaps).Error
+	if err != nil {
+		return errmsg.ERROR
 	}
 	return errmsg.SUCCSE
 }
