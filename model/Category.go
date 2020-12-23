@@ -21,7 +21,7 @@ func CheckCategory(id int, name string) (data Category, error interface{}) {
 	if id != 0 {
 		Db.Where("id = ?", id).First(&category)
 	} else if name != "" {
-		Db.Select("id").Where("username = ?", name).First(&category)
+		Db.Where("name = ?", name).First(&category)
 	} else {
 		return category, "error"
 	}
@@ -48,25 +48,23 @@ func GetCategoryList(pageSize int, PageNum int) []Category {
 	return category
 }
 
-//删除用户
-func DeleteCategory(id int) int {
+//修改分类
+func EditCategory(data *Category) int {
 	var category Category
-	//软删除
-	err := Db.Where("id = ?", id).Delete(&category).Error
+	var categoryMaps = make(map[string]interface{})
+	categoryMaps["name"] = data.Name
+	err := Db.Model(&category).Where("id = ?", data.ID).Updates(categoryMaps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
 	return errmsg.SUCCSE
 }
 
-//修改用户
-func EditCategory(id int, data *User) int {
+//删除用户
+func DeleteCategory(id int) int {
 	var category Category
-	var categoryMaps = make(map[string]interface{})
-	categoryMaps["username"] = data.Username
-	categoryMaps["phone"] = data.Phone
-	categoryMaps["role"] = data.Role
-	err := Db.Model(&category).Where("id = ?", id).Updates(categoryMaps).Error
+	//软删除
+	err := Db.Where("id = ?", id).Delete(&category).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

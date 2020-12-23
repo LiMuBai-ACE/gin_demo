@@ -21,7 +21,8 @@ func InitRouter() {
 		//	分类模块的路由接口
 		routerV1.POST("category/add", v1.AddCategory)
 		routerV1.GET("categorys", v1.GetCategoryList)
-		routerV1.GET("category", v1.GetCategory)
+		//routerV1.GET("category", v1.GetCategory) // 无需单个查询 直接在列表修改
+
 		routerV1.POST("category/delete", v1.DeleteCategory)
 		routerV1.POST("category/edit", v1.EditCategory)
 		//	文章模块的路由接口

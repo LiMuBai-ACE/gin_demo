@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"gin_demo/model"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
@@ -140,10 +139,7 @@ func GetUserList(c *gin.Context) {
 
 //修改用户信息
 func EditUser(c *gin.Context) {
-	var params struct {
-		model.User
-		ID string
-	}
+	var params model.User
 	c.ShouldBindJSON(&params)
 	// 验证用户是否存在
 	user, _ := model.CheckUser("", 0, params.Username)
@@ -155,9 +151,8 @@ func EditUser(c *gin.Context) {
 		})
 		return
 	}
-	id, _ := strconv.Atoi(params.ID)
-	fmt.Printf("%#v", id)
-	code = model.EditUser(id, &params.User)
+
+	code = model.EditUser(int(params.ID), &params)
 	if code == errmsg.ERROR {
 		c.JSON(http.StatusOK, gin.H{
 			"code": code,
@@ -175,12 +170,11 @@ func EditUser(c *gin.Context) {
 //删除用户信息
 func DeleteUser(c *gin.Context) {
 	var idObj struct {
-		ID string `json:"id"`
+		ID int `json:"id"`
 	}
 	c.ShouldBindJSON(&idObj)
-	id, _ := strconv.Atoi(idObj.ID)
 	//是否传入正确id
-	if id == 0 {
+	if idObj.ID == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code":   errmsg.GetErrmsg(errmsg.ERROR),
 			"msg":    "请传入正确的id",
@@ -189,7 +183,7 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 	//查询id 查看用户是否存在
-	data, _ := model.CheckUser("", id, "")
+	data, _ := model.CheckUser("", idObj.ID, "")
 	// 未查询用户
 	if data.ID == 0 {
 		c.JSON(http.StatusOK, gin.H{
@@ -199,7 +193,7 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 	//删除是否成功
-	code = model.DeleteUser(id)
+	code = model.DeleteUser(idObj.ID)
 	if code == errmsg.ERROR_USER_NOT_EXIST {
 		c.JSON(http.StatusOK, gin.H{
 			"msg":    errmsg.GetErrmsg(code),
