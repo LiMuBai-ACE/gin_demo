@@ -44,6 +44,6 @@ func InitDB() {
 	// SetConnMaxLifetiment 设置连接的最大可复用时间。 10秒
 	Db.DB().SetConnMaxLifetime(10 * time.Second)
 
-	//Db.LogMode(true)  // 打印select语句
+	//Db.LogMode(true) // 打印select语句
 	//defer Db.Close()
 }

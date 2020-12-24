@@ -11,8 +11,10 @@ type Category struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
-	Name      string     `gorm:"type:varchar(20);not null" json:"name"`
+	Name      string     `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
 }
+
+//UId       string     `gorm:"type:varchar(20);not null;comment:'创建人id'" json:"u_id"`
 
 //查询用户是否存在 并返回
 func CheckCategory(id int, name string) (data Category, error interface{}) {
