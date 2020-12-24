@@ -20,7 +20,7 @@ func Msg(code int, msg string, c *gin.Context) {
 func AddArticle(c *gin.Context) {
 	var article model.Article
 
-	c.ShouldBindJSON(&article)
+	_ = c.ShouldBindJSON(&article)
 	if article.Name == "" {
 		Msg(500, "分类不能为空!", c)
 		return
@@ -96,7 +96,7 @@ func GetArticleList(c *gin.Context) {
 //修改分类
 func EditArt(c *gin.Context) {
 	var article model.Article
-	c.ShouldBindJSON(&article)
+	_ = c.ShouldBindJSON(&article)
 
 	//验证标题是否重复
 	data, _ := model.CheckArt(0, article.Title)
@@ -115,10 +115,10 @@ func EditArt(c *gin.Context) {
 	})
 }
 
-//文章分类
+//删除文章
 func DeleteArt(c *gin.Context) {
 	var article model.Article
-	c.ShouldBindJSON(&article)
+	_ = c.ShouldBindJSON(&article)
 
 	data, _ := model.CheckArt(int(article.ID), "")
 	if data.ID == 0 {

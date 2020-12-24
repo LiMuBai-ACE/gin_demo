@@ -29,6 +29,8 @@ func InitRouter() {
 		routerV1.POST("article/add", v1.AddArticle)
 		routerV1.GET("article", v1.GetArticle)
 		routerV1.GET("articles", v1.GetArticleList)
+		routerV1.POST("article/edit", v1.EditArt)
+		routerV1.POST("article/delete", v1.DeleteArt)
 	}
 	panic(r.Run(utils.HttpPort))
 }

@@ -29,17 +29,6 @@ func CheckArt(id int, title string) (data Article, error interface{}) {
 	return article, nil
 }
 
-//查询分类下的文章
-func GetCateArt(CId int) []Article {
-	var article []Article
-	err := Db.Where("cid", CId).Find(&article).Error
-
-	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
-	}
-	return article
-}
-
 //新增文章
 func CreateArt(data *Article) int {
 	err := Db.Create(&data).Error
@@ -72,14 +61,27 @@ func EditArt(data *Article) int {
 	var article Article
 	var articleMaps = make(map[string]interface{})
 	// 修改文章标签
-	articleMaps["name"] = data.Name
-	articleMaps["cid"] = data.Cid
+	if data.Name != "" && data.Cid != 0 {
+		articleMaps["name"] = data.Name
+		articleMaps["cid"] = data.Cid
+	}
 	//修改内容
-	articleMaps["title"] = data.Title
-	articleMaps["desc"] = data.Desc
-	articleMaps["content"] = data.Content
-	articleMaps["img"] = data.Img
-	err := Db.Model(&article).Where("id = ?", data.ID).Updates(article).Error
+	if data.Title != "" {
+		articleMaps["title"] = data.Title
+	}
+	if data.Desc != "" {
+		articleMaps["desc"] = data.Desc
+	}
+	if data.Content != "" {
+		articleMaps["content"] = data.Content
+	}
+	if data.Uid != 0 {
+		articleMaps["uid"] = data.Uid
+	}
+	if data.Img != "" {
+		articleMaps["img"] = data.Img
+	}
+	err := Db.Model(&article).Where("id = ?", data.ID).Updates(articleMaps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
