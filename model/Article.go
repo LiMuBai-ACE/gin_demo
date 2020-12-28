@@ -1,18 +1,25 @@
 package model
 
 import (
+	"fmt"
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
+//foreignkey 关联关系
 type Article struct {
-	Category
-	Title   string `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
-	Cid     int    `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
-	Uid     int    `gorm:"type:int;not null;comment:'用户id'" json:"uid"`
-	Desc    string `gorm:"type:varchar(200);comment:'文章简介'" json:"desc"`
-	Content string `gorm:"type:longtext;comment:'文章内容'" json:"content"`
-	Img     string `gorm:"type:varchar(100);comment:'文章图片'" json:"img"`
+	Category  Category `gorm:"foreignkey:Cid;"json:"category"`
+	ID        uint     `gorm:"primary_key;auto_increment" json:"id"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `sql:"index"`
+	Title     string     `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
+	Cid       int        `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
+	Uid       int        `gorm:"type:int;not null;comment:'用户id'" json:"uid"`
+	Desc      string     `gorm:"type:varchar(200);comment:'文章简介'" json:"desc"`
+	Content   string     `gorm:"type:longtext;comment:'文章内容'" json:"content"`
+	Img       string     `gorm:"type:varchar(100);comment:'文章图片'" json:"img"`
 }
 
 //查询文章是否存在 并返回
@@ -20,9 +27,9 @@ func CheckArt(id int, title string) (data Article, error interface{}) {
 	var article Article
 	//First 查出第一个参数
 	if id != 0 {
-		Db.Where("id = ?", id).First(&article)
+		Db.Preload("Category").Where("id = ?", id).First(&article)
 	} else if title != "" {
-		Db.Where("title = ?", title).First(&article)
+		Db.Preload("Category").Where("title = ?", title).First(&article)
 	} else {
 		return article, "error"
 	}
@@ -42,13 +49,15 @@ func CreateArt(data *Article) int {
 func GetArtList(pageSize int, PageNum int, cid int) []Article {
 	var article []Article
 	//一页多少个
+	fmt.Println(cid, "-------")
 	if cid != 0 {
-		err := Db.Limit(pageSize).Offset((PageNum-1)*pageSize).Where("cid = ?", cid).Find(&article).Error
+		err := Db.Preload("Category").Where("cid = ?", cid).Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
 			return nil
 		}
 	} else {
-		err := Db.Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Error
+		// 预加载 Preload
+		err := Db.Preload("Category").Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
 			return nil
 		}
@@ -61,8 +70,8 @@ func EditArt(data *Article) int {
 	var article Article
 	var articleMaps = make(map[string]interface{})
 	// 修改文章标签
-	if data.Name != "" && data.Cid != 0 {
-		articleMaps["name"] = data.Name
+	if data.Category.Name != "" && data.Cid != 0 {
+		articleMaps["name"] = data.Category.Name
 		articleMaps["cid"] = data.Cid
 	}
 	//修改内容

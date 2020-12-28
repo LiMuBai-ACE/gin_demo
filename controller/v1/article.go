@@ -16,12 +16,12 @@ func Msg(code int, msg string, c *gin.Context) {
 	})
 }
 
-//添加分类
+//添加文章
 func AddArticle(c *gin.Context) {
 	var article model.Article
 
 	_ = c.ShouldBindJSON(&article)
-	if article.Name == "" {
+	if article.Category.Name == "" {
 		Msg(500, "分类不能为空!", c)
 		return
 	}
@@ -56,12 +56,12 @@ func AddArticle(c *gin.Context) {
 	})
 }
 
-//查询单个分类
+//查询单个文章
 func GetArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Query("id"))
 	data, _ := model.CheckArt(id, "")
 	if data.ID == 0 {
-		Msg(500, "未找到文章,该文章已关闭,或者被删除", c)
+		Msg(500, "抱歉,未找到文章,该文章已关闭,或者被删除", c)
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -70,7 +70,7 @@ func GetArticle(c *gin.Context) {
 	})
 }
 
-//查询分类
+//查询文章列表
 func GetArticleList(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
@@ -93,7 +93,7 @@ func GetArticleList(c *gin.Context) {
 	})
 }
 
-//修改分类
+//修改文章
 func EditArt(c *gin.Context) {
 	var article model.Article
 	_ = c.ShouldBindJSON(&article)

@@ -15,6 +15,7 @@ const (
 	ERROR_TOKEN_TYPE     = 1007
 	ERROR_EMAIL_WRONG    = 1008
 	ERROR_EMAIL_ID_email = 1009
+	ERROR_User_NO_RIGHT  = 1010
 
 	// code = 2000...文章模块的错误
 	// code = 3000...分类模块的错误
@@ -31,6 +32,7 @@ var codemsg = map[int]string{
 	ERROR_TOKEN_RUNIME:   "TOKEN已过期",
 	ERROR_TOKEN_WRONG:    "TOKEN不正确",
 	ERROR_TOKEN_TYPE:     "TOKEN格式错误",
+	ERROR_User_NO_RIGHT:  "您无访问权限",
 	ERROR_EMAIL_WRONG:    "邮箱格式不正确,请传入正确的邮箱账号",
 	ERROR_EMAIL_ID_email: "请传入id或者邮箱账号来查看用户信息",
 }
