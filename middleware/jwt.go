@@ -19,7 +19,7 @@ type MyClaims struct {
 
 //生成token
 func SetToken(email string) (string, int) {
-	//时间 十小时
+	//过期时间 十小时
 	expireTime := time.Now().Add(10 * time.Hour)
 	SetClaims := MyClaims{
 		jwt.StandardClaims{
@@ -39,14 +39,31 @@ func SetToken(email string) (string, int) {
 
 //验证token
 func CheckToken(token string) (*MyClaims, int) {
-	setToken, _ := jwt.ParseWithClaims(token, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
+	var claims MyClaims
+
+	setToken, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (i interface{}, e error) {
 		return JwtKey, nil
 	})
-	if key, _ := setToken.Claims.(*MyClaims); setToken.Valid {
-		return key, errmsg.SUCCSE
-	} else {
-		return nil, errmsg.ERROR
+
+	if err != nil {
+		if ve, ok := err.(*jwt.ValidationError); ok {
+			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
+				return nil, errmsg.ERROR_TOKEN_WRONG
+			} else if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
+				return nil, errmsg.ERROR
+			} else {
+				return nil, errmsg.ERROR
+			}
+		}
 	}
+	if setToken != nil {
+		if key, ok := setToken.Claims.(*MyClaims); ok && setToken.Valid {
+			return key, errmsg.SUCCSE
+		} else {
+			return nil, errmsg.ERROR_TOKEN_WRONG
+		}
+	}
+	return nil, errmsg.ERROR_TOKEN_WRONG
 }
 
 var code int
@@ -54,7 +71,7 @@ var code int
 //jwt中间件
 func JwtToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		tokenHerder := c.Request.Header.Get("Authorizathion")
+		tokenHerder := c.Request.Header.Get("Authorization") // 拿到写入的请求头token 进行验证
 		if tokenHerder == "" {
 			code = errmsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
