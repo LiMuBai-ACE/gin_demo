@@ -10,7 +10,10 @@ import (
 //routerV1 接口的第一个版本
 func InitRouter() {
 	gin.SetMode(utils.AppMode)
-	r := gin.Default()
+	r := gin.New()
+	r.Use(middleware.Loggoer())
+	r.Use(gin.Recovery())
+
 	Auth := r.Group("api/v1")
 	Auth.Use(middleware.JwtToken()) // 需要验证的
 	{
@@ -31,6 +34,9 @@ func InitRouter() {
 
 		Auth.POST("article/edit", v1.EditArt)
 		Auth.POST("article/delete", v1.DeleteArt)
+
+		//	上传文件
+		Auth.POST("upload", v1.UpLoad)
 	}
 
 	router := r.Group("api/v1")

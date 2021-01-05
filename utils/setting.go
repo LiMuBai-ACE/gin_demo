@@ -16,6 +16,11 @@ var (
 	DbUser     string
 	DbPassWord string
 	DbName     string
+
+	AccessKey  string
+	SecretKey  string
+	Bucket     string
+	QiniuSever string
 )
 
 func init() {
@@ -25,6 +30,7 @@ func init() {
 	}
 	LoadServer(file)
 	LoadData(file)
+	LoadQiniu(file)
 }
 
 func LoadServer(file *ini.File) {
@@ -40,4 +46,11 @@ func LoadData(file *ini.File) {
 	DbUser = file.Section("database").Key("DbUser").MustString("root")
 	DbPassWord = file.Section("database").Key("DbPassWord").MustString("Li-123456")
 	DbName = file.Section("database").Key("DbName").MustString("gin_demo")
+}
+
+func LoadQiniu(file *ini.File) {
+	AccessKey = file.Section("qiniu").Key("AccessKey").MustString("pWaI8lq9elb356iJcpJxqbpRJrYh_WmV0wEiC_56")
+	SecretKey = file.Section("qiniu").Key("SecretKey").MustString("P_8t85mLW7_tWWMABOASZmMPPiqlLHCd3AS_TSuI")
+	Bucket = file.Section("qiniu").Key("Bucket").MustString("gin-demo")
+	QiniuSever = file.Section("qiniu").Key("QiniuSever").MustString("http://qmek01nhu.hd-bkt.clouddn.com/")
 }
