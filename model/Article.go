@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
 	"time"
@@ -46,23 +45,23 @@ func CreateArt(data *Article) int {
 }
 
 //查询文章列表
-func GetArtList(pageSize int, PageNum int, cid int) []Article {
+func GetArtList(pageSize int, PageNum int, cid int) ([]Article, int) {
 	var article []Article
+	var total int // 总数
 	//一页多少个
-	fmt.Println(cid, "-------")
 	if cid != 0 {
-		err := Db.Preload("Category").Where("cid = ?", cid).Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Error
+		err := Db.Preload("Category").Where("cid = ?", cid).Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
-			return nil
+			return nil, 0
 		}
 	} else {
 		// 预加载 Preload
-		err := Db.Preload("Category").Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Error
+		err := Db.Preload("Category").Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
-			return nil
+			return nil, 0
 		}
 	}
-	return article
+	return article, total
 }
 
 //修改文章

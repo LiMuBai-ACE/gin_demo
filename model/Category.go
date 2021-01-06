@@ -40,14 +40,15 @@ func CreateCategory(data *Category) int {
 }
 
 //查询标签列表
-func GetCategoryList(pageSize int, PageNum int) []Category {
+func GetCategoryList(pageSize int, PageNum int) ([]Category, int) {
 	var category []Category
+	var total int // 总数
 	//一页多少个
-	err := Db.Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&category).Error
+	err := Db.Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&category).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil, 0
 	}
-	return category
+	return category, total
 }
 
 //修改分类
