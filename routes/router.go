@@ -13,6 +13,7 @@ func InitRouter() {
 	r := gin.New()
 	r.Use(middleware.Loggoer())
 	r.Use(gin.Recovery())
+	r.Use(middleware.Cors())
 
 	Auth := r.Group("api/v1")
 	Auth.Use(middleware.JwtToken()) // 需要验证的
