@@ -16,10 +16,10 @@ func InitRouter() {
 	r.Use(middleware.Cors())
 
 	Auth := r.Group("api/v1")
+	Auth.Use(middleware.Cors())
 	Auth.Use(middleware.JwtToken()) // 需要验证的
 	{
 		//	用户模块的路由接口
-		Auth.POST("user/add", v1.AddUser)
 		Auth.GET("users", v1.GetUserList)
 		Auth.GET("user", v1.GetUser)
 		Auth.POST("user/delete", v1.DeleteUser)
@@ -41,7 +41,9 @@ func InitRouter() {
 	}
 
 	router := r.Group("api/v1")
+	router.Use(middleware.Cors())
 	{
+		router.POST("user/add", v1.AddUser)
 		router.GET("categorys", v1.GetCategoryList)
 		router.GET("article", v1.GetArticle)
 		router.GET("articles", v1.GetArticleList)

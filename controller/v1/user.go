@@ -4,6 +4,7 @@ import (
 	"gin_demo/model"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
+	"gin_demo/utils/validator"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -14,15 +15,26 @@ var code int
 //添加用户
 func AddUser(c *gin.Context) {
 	var user model.User
+
 	_ = c.ShouldBindJSON(&user)
+
+	var msg string
+	msg, code = validator.Validator(&user)
+	if code != errmsg.SUCCSE {
+		c.JSON(http.StatusOK, gin.H{
+			"status": code,
+			"msg":    msg,
+		})
+		return
+	}
 
 	//验证邮箱账号
 	if !utils.VerifyEmailFormat(user.Email) {
 		code = errmsg.ERROR_EMAIL_WRONG
 		c.JSON(http.StatusOK, gin.H{
 			"status": code,
-			"data":   user,
-			"msg":    errmsg.GetErrmsg(code),
+			//"data":   user,
+			"msg": errmsg.GetErrmsg(code),
 		})
 		return
 	}
@@ -47,8 +59,8 @@ func AddUser(c *gin.Context) {
 	if code == errmsg.SUCCSE {
 		c.JSON(http.StatusOK, gin.H{
 			"status": code,
-			"data":   user,
-			"msg":    errmsg.GetErrmsg(code),
+			//"data":   user,
+			"msg": errmsg.GetErrmsg(code),
 		})
 		return
 	}
@@ -57,8 +69,8 @@ func AddUser(c *gin.Context) {
 		code = errmsg.ERROR_USERNAME_USED
 		c.JSON(http.StatusOK, gin.H{
 			"status": code,
-			"data":   user,
-			"msg":    errmsg.GetErrmsg(code),
+			//"data":   user,
+			"msg": errmsg.GetErrmsg(code),
 		})
 		return
 	}
@@ -125,14 +137,14 @@ func GetUserList(c *gin.Context) {
 	if pageNum == 0 {
 		pageNum = -1
 	}
-	data := model.GetUserList(pageSize, pageNum)
+	data, total := model.GetUserList(pageSize, pageNum)
 	code := errmsg.SUCCSE
 	c.JSON(http.StatusOK, gin.H{
 		"status":     code,
 		"data":       data,
 		"pageNum":    pageNum,
 		"pageSize":   pageSize,
-		"totalCount": len(model.GetUserList(-1, -1)),
+		"totalCount": total,
 		"msg":        errmsg.GetErrmsg(code),
 	})
 }
