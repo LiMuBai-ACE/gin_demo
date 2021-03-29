@@ -4,6 +4,7 @@ import (
 	v1 "gin_demo/controller/v1"
 	"gin_demo/middleware"
 	"gin_demo/utils"
+	"gin_demo/weather"
 	"github.com/gin-gonic/gin"
 )
 
@@ -48,6 +49,15 @@ func InitRouter() {
 		router.GET("article", v1.GetArticle)
 		router.GET("articles", v1.GetArticleList)
 		router.POST("login", v1.Login)
+	}
+
+	//关于天气的
+	wrouter := r.Group("/")
+	wrouter.Use(middleware.Cors())
+	{
+		wrouter.GET("/weather", weather.ShowWeather)
+		wrouter.GET("/citylist", weather.ShowCityList)
+		wrouter.GET("/weather/status", weather.ShowStatus)
 	}
 	panic(r.Run(utils.HttpPort))
 }

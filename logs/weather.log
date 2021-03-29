@@ -1,0 +1,26 @@
+[Info] 2021/03/25 17:29:21 main.go:45: 2021-03-25T17:29:21+08:00 Amd64 Windows
+[Info] 2021/03/25 17:29:21 main.go:59: Using default setting, listen on :3244
+[Info] 2021/03/25 17:29:21 main.go:71: Service listen on :3244
+[Info] 2021/03/25 18:00:44 main.go:223: Recv a signal: interrupt
+[Info] 2021/03/29 16:01:02 open-weather.go:40: 2021-03-29T16:01:02+08:00 Amd64 Windows
+[Info] 2021/03/29 16:02:13 open-weather.go:40: 2021-03-29T16:02:13+08:00 Amd64 Windows
+[Info] 2021/03/29 16:03:37 open-weather.go:40: 2021-03-29T16:03:37+08:00 Amd64 Windows
+[Info] 2021/03/29 16:30:34 open-weather.go:41: 2021-03-29T16:30:34+08:00 Amd64 Windows
+[Info] 2021/03/29 16:30:54 open-weather.go:41: 2021-03-29T16:30:54+08:00 Amd64 Windows
+[Info] 2021/03/29 16:33:48 open-weather.go:41: 2021-03-29T16:33:48+08:00 Amd64 Windows
+[Info] 2021/03/29 16:42:49 open-weather.go:41: 2021-03-29T16:42:49+08:00 Amd64 Windows
+[Info] 2021/03/29 16:44:41 open-weather.go:41: 2021-03-29T16:44:41+08:00 Amd64 Windows
+[Info] 2021/03/29 16:50:27 open-weather.go:42: 2021-03-29T16:50:27+08:00 Amd64 Windows
+[Info] 2021/03/29 16:50:28 weather.go:595: Load region data from  .region_data.gob failed open .region_data.gob: The system cannot find the file specified.
+[Info] 2021/03/29 16:50:28 weather.go:82: load region info from file failed,ready to get
+[Info] 2021/03/29 16:50:30 weather.go:572: remove .region_data.gob: The system cannot find the file specified.
+[Info] 2021/03/29 16:50:30 open-weather.go:53: open .region_data.gob: The system cannot find the file specified.
+[Info] 2021/03/29 16:51:07 open-weather.go:42: 2021-03-29T16:51:07+08:00 Amd64 Windows
+[Info] 2021/03/29 17:00:25 open-weather.go:42: 2021-03-29T17:00:25+08:00 Amd64 Windows
+[Info] 2021/03/29 17:03:00 weather.go:288: last update time：香港_香港_香港  2021-03-29T11:30:00+08:00
+[Info] 2021/03/29 17:04:03 open-weather.go:42: 2021-03-29T17:04:03+08:00 Amd64 Windows
+[Info] 2021/03/29 17:04:59 open-weather.go:42: 2021-03-29T17:04:59+08:00 Amd64 Windows
+[Info] 2021/03/29 17:06:02 open-weather.go:41: 2021-03-29T17:06:02+08:00 Amd64 Windows
+[Info] 2021/03/29 17:08:11 open-weather.go:41: 2021-03-29T17:08:11+08:00 Amd64 Windows
+[Info] 2021/03/29 17:08:27 open-weather.go:42: 2021-03-29T17:08:27+08:00 Amd64 Windows
+[Info] 2021/03/29 17:09:37 open-weather.go:41: 2021-03-29T17:09:37+08:00 Amd64 Windows

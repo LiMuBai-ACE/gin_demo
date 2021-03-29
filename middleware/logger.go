@@ -14,7 +14,7 @@ import (
 func Loggoer() gin.HandlerFunc {
 	filePath := "logs/log.log" // 文件路径
 
-	linkName := "latest.log.log" // 最新的日志
+	linkName := "logs/latest.log.log" // 最新的日志
 
 	src, err := os.OpenFile(filePath, os.O_RDWR, 0755) // 打开文件 并赋予写入权限
 	if err != nil {
