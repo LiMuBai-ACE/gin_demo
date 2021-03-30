@@ -89,14 +89,14 @@ func ShowWeather(c *gin.Context) {
 		errResp(c.Writer, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
-	jsonStr, err := json.Marshal(Resp)
+	//jsonStr, err := json.Marshal(Resp)  // 序列化转字符串
 	if nil != err {
 		errResp(c.Writer, http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"status": 200,
-		"data":   jsonStr,
+		"data":   Resp,
 		"msg":    errmsg.GetErrmsg(200),
 	})
 }
@@ -108,26 +108,33 @@ func ShowCityList(c *gin.Context) {
 	params := strings.Split(city, ",")
 	if city != "" {
 		resp, _ := weatherHandle.ShowCityList(params[0])
-		c.JSON(http.StatusOK, gin.H{
-			"status": 200,
-			"data":   resp,
-			"msg":    errmsg.GetErrmsg(200),
-		})
+		var m interface{}
+		err := json.Unmarshal(resp, &m)
+		if err != nil {
+			fmt.Println(err)
+		}
+		c.JSON(http.StatusOK, m)
 	} else {
 		resp, _ := weatherHandle.ShowCityList("")
-		c.JSON(http.StatusOK, gin.H{
-			"status": 200,
-			"data":   resp,
-			"msg":    errmsg.GetErrmsg(200),
-		})
+		var m interface{}
+		err := json.Unmarshal(resp, &m)
+		if err != nil {
+			fmt.Println(err)
+		}
+		c.JSON(http.StatusOK, m)
 	}
 }
 
 func ShowStatus(c *gin.Context) {
 	weatherHandle := getWeatherHandle()
 	status := weatherHandle.Stats()
-	strStatus, _ := json.Marshal(status)
-	c.Writer.Write(strStatus)
+	//strStatus, _ := json.Marshal(status)  // 序列化 转字符串
+	c.JSON(http.StatusOK, gin.H{
+		"status": 200,
+		"data":   status,
+		"msg":    errmsg.GetErrmsg(200),
+	})
+	//c.Writer.Write(status)
 }
 
 func errResp(w gin.ResponseWriter, rCode int, rMsg string) {
