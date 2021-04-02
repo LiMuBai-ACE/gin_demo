@@ -17,7 +17,6 @@ func InitRouter() {
 	r.Use(middleware.Cors())
 
 	Auth := r.Group("api/v1")
-	Auth.Use(middleware.Cors())
 	Auth.Use(middleware.JwtToken()) // 需要验证的
 	{
 		//	用户模块的路由接口
@@ -45,10 +44,10 @@ func InitRouter() {
 	router.Use(middleware.Cors())
 	{
 		router.POST("user/add", v1.AddUser)
+		router.POST("login", v1.Login)
 		router.GET("categorys", v1.GetCategoryList)
 		router.GET("article", v1.GetArticle)
 		router.GET("articles", v1.GetArticleList)
-		router.POST("login", v1.Login)
 	}
 
 	//关于天气的
