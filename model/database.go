@@ -28,12 +28,11 @@ func InitDB() {
 	if Err != nil {
 		panic("failed to connect database, err" + Err.Error())
 	}
-
 	// 禁用默认表名的复数形式,如果置为true,则`User`的默认表名是`user`
 	Db.SingularTable(true)
 
 	//创建数据表
-	Db.AutoMigrate(&User{}, &Article{}, &Category{})
+	Db.AutoMigrate(&User{}, &Category{}, &Article{})
 
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
 	Db.DB().SetMaxIdleConns(10)

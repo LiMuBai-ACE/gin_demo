@@ -4,7 +4,6 @@ go 1.15
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/locales v0.13.0
 	github.com/go-playground/universal-translator v0.17.0
@@ -14,6 +13,7 @@ require (
 	github.com/jinzhu/gorm v1.9.16 // gorm
 	github.com/jonboulle/clockwork v0.2.2 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/kr/pretty v0.1.0 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.4 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
@@ -27,6 +27,7 @@ require (
 	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620 // 加密
 	golang.org/x/sys v0.0.0-20201211090839-8ad439b19e0f // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/ini.v1 v1.62.0
-	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gorm.io/gorm v1.21.6 // indirect
 )
