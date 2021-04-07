@@ -8,9 +8,9 @@ import (
 //结构体值类型
 type User struct {
 	Model
-	Username string `gorm:"type:varchar(320);comment:'昵称'" json:"username" label:"昵称"`
+	Username string `gorm:"type:varchar(100);comment:'昵称'" json:"username" label:"昵称"`
 	Avatar   string `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
-	Email    string `gorm:"type:varchar(320);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
+	Email    string `gorm:"type:varchar(100);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
 	Password string `gorm:"type:varchar(20);not null;comment:'密码'" json:"password" validate:"required,min=6,max=20" label:"密码"`
 	Confirm  string `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"confirm" validate:"required,min=6,max=20" label:"密码"`
 	Phone    string `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
