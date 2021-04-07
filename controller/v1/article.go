@@ -84,7 +84,7 @@ func GetArticleList(c *gin.Context) {
 	data, total := model.GetArtList(pageSize, pageNum, cid)
 	code := errmsg.SUCCSE
 	c.JSON(http.StatusOK, gin.H{
-		"status":     code,
+		"code":       code,
 		"data":       data,
 		"pageNum":    pageNum,
 		"pageSize":   pageSize,
@@ -102,8 +102,8 @@ func EditArt(c *gin.Context) {
 	data, _ := model.CheckArt(0, article.Title)
 	if data.ID > 0 {
 		c.JSON(http.StatusOK, gin.H{
-			"status": 400,
-			"msg":    "标题名称已存在,请更换标题名称",
+			"code": 400,
+			"msg":  "标题名称已存在,请更换标题名称",
 		})
 		return
 	}

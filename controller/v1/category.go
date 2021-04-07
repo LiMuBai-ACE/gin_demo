@@ -16,8 +16,8 @@ func AddCategory(c *gin.Context) {
 	//	验证不能为空
 	if category.Name == "" {
 		c.JSON(http.StatusOK, gin.H{
-			"status": 400,
-			"msg":    "分类名称不能为空",
+			"code": 400,
+			"msg":  "分类名称不能为空",
 		})
 		return
 	}
@@ -25,22 +25,17 @@ func AddCategory(c *gin.Context) {
 	data, _ := model.CheckCategory(0, category.Name)
 	if data.ID > 0 {
 		c.JSON(http.StatusOK, gin.H{
-			"status": 400,
-			"msg":    "分类名称已存在,请更换分类名称",
+			"code": 400,
+			"msg":  "分类名称已存在,请更换分类名称",
 		})
 		return
 	}
 
 	code = model.CreateCategory(&category)
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"msg":    errmsg.GetErrmsg(code),
+		"code": code,
+		"msg":  errmsg.GetErrmsg(code),
 	})
-}
-
-//查询单个分类
-func GetCategory(c *gin.Context) {
-
 }
 
 //查询分类
@@ -56,7 +51,7 @@ func GetCategoryList(c *gin.Context) {
 	data, total := model.GetCategoryList(pageSize, pageNum)
 	code := errmsg.SUCCSE
 	c.JSON(http.StatusOK, gin.H{
-		"status":     code,
+		"code":       code,
 		"data":       data,
 		"pageNum":    pageNum,
 		"pageSize":   pageSize,
@@ -74,8 +69,8 @@ func EditCategory(c *gin.Context) {
 	data, _ := model.CheckCategory(0, category.Name)
 	if data.ID > 0 {
 		c.JSON(http.StatusOK, gin.H{
-			"status": 400,
-			"msg":    "分类名称已存在,请更换分类名称",
+			"code": 400,
+			"msg":  "分类名称已存在,请更换分类名称",
 		})
 		return
 	}

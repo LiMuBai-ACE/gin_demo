@@ -3,15 +3,11 @@ package model
 import (
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 type Category struct {
-	ID        uint `gorm:"primary_key;auto_increment" json:"id"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index"`
-	Name      string     `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
+	Model
+	Name string `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
 }
 
 //UId       string     `gorm:"type:varchar(20);not null;comment:'创建人id'" json:"u_id"`

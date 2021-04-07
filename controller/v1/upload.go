@@ -14,9 +14,9 @@ func UpLoad(c *gin.Context) {
 
 	url, code := model.UpLoadFile(file, fileSize)
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"msg":    errmsg.GetErrmsg(code),
-		"url":    url,
+		"code": code,
+		"msg":  errmsg.GetErrmsg(code),
+		"url":  url,
 	})
 
 }

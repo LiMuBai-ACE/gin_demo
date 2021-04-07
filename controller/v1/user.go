@@ -22,8 +22,8 @@ func AddUser(c *gin.Context) {
 	msg, code = validator.Validator(&user)
 	if code != errmsg.SUCCSE {
 		c.JSON(http.StatusOK, gin.H{
-			"status": code,
-			"msg":    msg,
+			"code": code,
+			"msg":  msg,
 		})
 		return
 	}
@@ -32,7 +32,7 @@ func AddUser(c *gin.Context) {
 	if !utils.VerifyEmailFormat(user.Email) {
 		code = errmsg.ERROR_EMAIL_WRONG
 		c.JSON(http.StatusOK, gin.H{
-			"status": code,
+			"code": code,
 			//"data":   user,
 			"msg": errmsg.GetErrmsg(code),
 		})
@@ -45,8 +45,8 @@ func AddUser(c *gin.Context) {
 	if data.ID > 0 {
 		code = errmsg.ERROR_USERNAME_USED
 		c.JSON(http.StatusOK, gin.H{
-			"status": code,
-			"msg":    errmsg.GetErrmsg(code),
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
 		})
 		return
 	}
@@ -54,8 +54,8 @@ func AddUser(c *gin.Context) {
 	if user.Password != user.Confirm {
 		code = errmsg.ERROR_User_PASSWORD_Confirm
 		c.JSON(http.StatusOK, gin.H{
-			"status": code,
-			"msg":    errmsg.GetErrmsg(code),
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
 		})
 		return
 	}
@@ -70,7 +70,7 @@ func AddUser(c *gin.Context) {
 	//数据创建成功
 	if code == errmsg.SUCCSE {
 		c.JSON(http.StatusOK, gin.H{
-			"status": code,
+			"code": code,
 			//"data":   user,
 			"msg": errmsg.GetErrmsg(code),
 		})
@@ -80,7 +80,7 @@ func AddUser(c *gin.Context) {
 	if code == errmsg.ERROR_USERNAME_USED {
 		code = errmsg.ERROR_USERNAME_USED
 		c.JSON(http.StatusOK, gin.H{
-			"status": code,
+			"code": code,
 			//"data":   user,
 			"msg": errmsg.GetErrmsg(code),
 		})
@@ -152,7 +152,7 @@ func GetUserList(c *gin.Context) {
 	data, total := model.GetUserList(pageSize, pageNum)
 	code := errmsg.SUCCSE
 	c.JSON(http.StatusOK, gin.H{
-		"status":     code,
+		"code":       code,
 		"data":       data,
 		"pageNum":    pageNum,
 		"pageSize":   pageSize,
@@ -169,9 +169,8 @@ func EditUser(c *gin.Context) {
 	user, _ := model.CheckUser("", 0, params.Username)
 	if user.ID > 0 {
 		c.JSON(http.StatusOK, gin.H{
-			"code":   errmsg.GetErrmsg(errmsg.ERROR),
-			"msg":    "该昵称已被使用,请更换其他昵称修改!",
-			"status": errmsg.ERROR,
+			"code": errmsg.GetErrmsg(errmsg.ERROR),
+			"msg":  "该昵称已被使用,请更换其他昵称修改!",
 		})
 		return
 	}
@@ -211,8 +210,8 @@ func DeleteUser(c *gin.Context) {
 	// 未查询用户
 	if data.ID == 0 {
 		c.JSON(http.StatusOK, gin.H{
-			"msg":    errmsg.GetErrmsg(errmsg.ERROR_USER_NOT_EXIST),
-			"status": errmsg.ERROR_USER_NOT_EXIST,
+			"msg":  errmsg.GetErrmsg(errmsg.ERROR_USER_NOT_EXIST),
+			"code": errmsg.ERROR_USER_NOT_EXIST,
 		})
 		return
 	}
@@ -220,15 +219,15 @@ func DeleteUser(c *gin.Context) {
 	code = model.DeleteUser(idObj.ID)
 	if code == errmsg.ERROR_USER_NOT_EXIST {
 		c.JSON(http.StatusOK, gin.H{
-			"msg":    errmsg.GetErrmsg(code),
-			"status": code,
+			"msg":  errmsg.GetErrmsg(code),
+			"code": code,
 		})
 		return
 	}
 	if code == errmsg.SUCCSE {
 		c.JSON(http.StatusOK, gin.H{
-			"msg":    errmsg.GetErrmsg(code),
-			"status": code,
+			"msg":  errmsg.GetErrmsg(code),
+			"code": code,
 		})
 		return
 	}

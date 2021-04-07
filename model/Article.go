@@ -3,22 +3,18 @@ package model
 import (
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 //foreignkey 关联关系
 type Article struct {
-	Category  Category `gorm:"foreignkey:Cid;"json:"category"`
-	ID        uint     `gorm:"primary_key;auto_increment" json:"id"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt *time.Time `sql:"index"`
-	Title     string     `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
-	Cid       int        `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
-	Uid       int        `gorm:"type:int;not null;comment:'用户id'" json:"uid"`
-	Desc      string     `gorm:"type:varchar(200);comment:'文章简介'" json:"desc"`
-	Content   string     `gorm:"type:longtext;comment:'文章内容'" json:"content"`
-	Img       string     `gorm:"type:varchar(100);comment:'文章图片'" json:"img"`
+	Category Category `gorm:"foreignkey:Cid;"json:"category"`
+	Model
+	Title   string `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
+	Cid     int    `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
+	Uid     int    `gorm:"type:int;not null;comment:'用户id'" json:"uid"`
+	Desc    string `gorm:"type:varchar(200);comment:'文章简介'" json:"desc"`
+	Content string `gorm:"type:longtext;comment:'文章内容'" json:"content"`
+	Img     string `gorm:"type:varchar(100);comment:'文章图片'" json:"img"`
 }
 
 //查询文章是否存在 并返回

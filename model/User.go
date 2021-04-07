@@ -7,7 +7,7 @@ import (
 
 //结构体值类型
 type User struct {
-	gorm.Model
+	Model
 	Username string `gorm:"type:varchar(20);comment:'昵称'" json:"username" label:"昵称"`
 	Avatar   string `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
 	Email    string `gorm:"type:varchar(20);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
@@ -15,6 +15,10 @@ type User struct {
 	Confirm  string `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"confirm" validate:"required,min=6,max=20" label:"密码"`
 	Phone    string `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
 	Role     int    `gorm:"type:int;default:1;comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
+}
+
+type JsonUser struct {
+	User
 }
 
 //查询用户是否存在 并返回
