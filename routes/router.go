@@ -20,6 +20,7 @@ func InitRouter() {
 	Auth.Use(middleware.JwtToken()) // 需要验证的
 	{
 		//	用户模块的路由接口
+		Auth.GET("user/info", v1.UserInfo)
 		Auth.GET("users", v1.GetUserList)
 		Auth.GET("user", v1.GetUser)
 		Auth.POST("user/delete", v1.DeleteUser)

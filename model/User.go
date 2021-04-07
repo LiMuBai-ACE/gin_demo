@@ -9,12 +9,12 @@ import (
 type User struct {
 	gorm.Model
 	Username string `gorm:"type:varchar(20);comment:'昵称'" json:"username" label:"昵称"`
-	Avatar   string `gorm:"type:varchar(250);not null;comment:'头像'" json:"avatar" validate:"required" label:"头像"`
+	Avatar   string `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
 	Email    string `gorm:"type:varchar(20);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
 	Password string `gorm:"type:varchar(20);not null;comment:'密码'" json:"password" validate:"required,min=6,max=20" label:"密码"`
 	Confirm  string `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"confirm" validate:"required,min=6,max=20" label:"密码"`
 	Phone    string `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
-	Role     int    `gorm:"type:int; default:2; comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
+	Role     int    `gorm:"type:int;default:1;comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
 }
 
 //查询用户是否存在 并返回
@@ -22,11 +22,11 @@ func CheckUser(email string, id int, username string) (data User, error interfac
 	var user User
 	//First 查出第一个参数
 	if email != "" {
-		Db.Select("id").Where("email = ?", email).First(&user)
+		Db.Where("email = ?", email).First(&user)
 	} else if id != 0 {
 		Db.Where("id = ?", id).First(&user)
 	} else if username != "" {
-		Db.Select("id").Where("username = ?", username).First(&user)
+		Db.Where("username = ?", username).First(&user)
 	} else {
 		return user, "error"
 	}

@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"gin_demo/model"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
@@ -52,7 +51,6 @@ func AddUser(c *gin.Context) {
 		return
 	}
 	//密码不一致
-	fmt.Println(user)
 	if user.Password != user.Confirm {
 		code = errmsg.ERROR_User_PASSWORD_Confirm
 		c.JSON(http.StatusOK, gin.H{
@@ -64,7 +62,7 @@ func AddUser(c *gin.Context) {
 	user.Username = user.Email                                                       // 邮箱默认为用户昵称
 	user.Password = utils.ScryptStr(user.Password)                                   // 密码加密
 	user.Confirm = utils.ScryptStr(user.Confirm)                                     // 确认密码加密
-	user.Role = 2                                                                    // 默认权限
+	user.Role = 1                                                                    // 默认权限
 	user.Avatar = "//qlogo3.store.qq.com/qzone/1440955662/1440955662/100?1598071203" // 默认头像
 
 	//添加数据
