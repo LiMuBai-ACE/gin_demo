@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
 	"github.com/dgrijalva/jwt-go"
@@ -38,7 +39,7 @@ func SetToken(email string) (string, int) {
 }
 
 //验证token
-func CheckToken(token string) (*MyClaims, int) {
+func CheckToken(token string) (*MyClaims, interface{}) {
 	var claims MyClaims
 
 	setToken, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (i interface{}, e error) {
@@ -75,7 +76,7 @@ func JwtToken() gin.HandlerFunc {
 		if tokenHerder == "" {
 			code = errmsg.ERROR_TOKEN_EXIST
 			c.JSON(http.StatusOK, gin.H{
-				"code": code,
+				"code": 401,
 				"msg":  errmsg.GetErrmsg(code),
 			})
 			c.Abort()
@@ -86,7 +87,7 @@ func JwtToken() gin.HandlerFunc {
 		if len(checkToken) != 2 && checkToken[0] != "Bearer" {
 			code = errmsg.ERROR_TOKEN_WRONG
 			c.JSON(http.StatusOK, gin.H{
-				"code": code,
+				"code": 401,
 				"msg":  errmsg.GetErrmsg(code),
 			})
 			c.Abort()
@@ -94,10 +95,11 @@ func JwtToken() gin.HandlerFunc {
 		}
 
 		key, tCode := CheckToken(checkToken[1])
-		if tCode == errmsg.ERROR {
+		fmt.Println(key, tCode)
+		if tCode != nil {
 			code = errmsg.ERROR_TOKEN_WRONG
 			c.JSON(http.StatusOK, gin.H{
-				"code": code,
+				"code": 401,
 				"msg":  errmsg.GetErrmsg(code),
 			})
 			c.Abort()
@@ -107,7 +109,7 @@ func JwtToken() gin.HandlerFunc {
 		if time.Now().Unix() > key.ExpiresAt {
 			code = errmsg.ERROR_TOKEN_RUNIME
 			c.JSON(http.StatusOK, gin.H{
-				"code": code,
+				"code": 401,
 				"msg":  errmsg.GetErrmsg(code),
 			})
 			c.Abort()
