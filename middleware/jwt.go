@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
 	"github.com/dgrijalva/jwt-go"
@@ -95,7 +94,6 @@ func JwtToken() gin.HandlerFunc {
 		}
 
 		key, tCode := CheckToken(checkToken[1])
-		fmt.Println(key, tCode)
 		if tCode != nil {
 			code = errmsg.ERROR_TOKEN_WRONG
 			c.JSON(http.StatusOK, gin.H{
