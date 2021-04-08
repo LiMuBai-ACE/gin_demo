@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"fmt"
 	"gin_demo/middleware"
 	"gin_demo/model"
 	"gin_demo/utils/errmsg"
@@ -16,7 +17,7 @@ func Login(c *gin.Context) {
 
 	var token string
 	var code int
-
+	fmt.Println(data.Password)
 	//验证密码是否通过
 	code = model.CheckLogin(data.Email, data.Password)
 	if code == errmsg.SUCCSE {
@@ -36,7 +37,7 @@ func UserInfo(c *gin.Context) {
 	if tokenHerder == "" {
 		code = errmsg.ERROR_TOKEN_EXIST
 		c.JSON(http.StatusOK, gin.H{
-			"code": code,
+			"code": 401,
 			"msg":  errmsg.GetErrmsg(code),
 		})
 		c.Abort()
@@ -47,7 +48,7 @@ func UserInfo(c *gin.Context) {
 	if len(checkToken) != 2 && checkToken[0] != "Bearer" {
 		code = errmsg.ERROR_TOKEN_WRONG
 		c.JSON(http.StatusOK, gin.H{
-			"code": code,
+			"code": 401,
 			"msg":  errmsg.GetErrmsg(code),
 		})
 		c.Abort()
@@ -55,10 +56,10 @@ func UserInfo(c *gin.Context) {
 	}
 
 	key, tCode := middleware.CheckToken(checkToken[1])
-	if tCode == errmsg.ERROR {
+	if tCode != nil {
 		code = errmsg.ERROR_TOKEN_WRONG
 		c.JSON(http.StatusOK, gin.H{
-			"code": code,
+			"code": 401,
 			"msg":  errmsg.GetErrmsg(code),
 		})
 		c.Abort()
@@ -76,7 +77,7 @@ func UserInfo(c *gin.Context) {
 	} else {
 		code = errmsg.ERROR_USER_NOT_EXIST
 		c.JSON(http.StatusOK, gin.H{
-			"code": code,
+			"code": 401,
 			"msg":  errmsg.GetErrmsg(code),
 		})
 	}
