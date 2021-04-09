@@ -64,6 +64,40 @@
 [Info] 2021/04/01 14:58:18 open-weather.go:42: 2021-04-01T14:58:18+08:00 Amd64 Windows
 [Info] 2021/04/01 14:58:39 open-weather.go:42: 2021-04-01T14:58:39+08:00 Amd64 Windows
 [Info] 2021/04/01 15:01:02 open-weather.go:42: 2021-04-01T15:01:02+08:00 Amd64 Windows
+<<<<<<< HEAD
+[Info] 2021/04/06 22:09:29 open-weather.go:42: 2021-04-06T22:09:29+08:00 Amd64 Windows
+[Info] 2021/04/06 22:16:10 open-weather.go:42: 2021-04-06T22:16:10+08:00 Amd64 Windows
+[Info] 2021/04/06 22:17:29 open-weather.go:42: 2021-04-06T22:17:29+08:00 Amd64 Windows
+[Info] 2021/04/06 22:18:00 open-weather.go:42: 2021-04-06T22:18:00+08:00 Amd64 Windows
+[Info] 2021/04/06 22:19:12 open-weather.go:42: 2021-04-06T22:19:12+08:00 Amd64 Windows
+[Info] 2021/04/06 22:20:11 open-weather.go:42: 2021-04-06T22:20:11+08:00 Amd64 Windows
+[Info] 2021/04/06 22:21:46 open-weather.go:42: 2021-04-06T22:21:46+08:00 Amd64 Windows
+[Info] 2021/04/06 22:22:20 open-weather.go:42: 2021-04-06T22:22:20+08:00 Amd64 Windows
+[Info] 2021/04/06 22:22:42 open-weather.go:42: 2021-04-06T22:22:42+08:00 Amd64 Windows
+[Info] 2021/04/06 22:23:12 open-weather.go:42: 2021-04-06T22:23:12+08:00 Amd64 Windows
+[Info] 2021/04/06 22:37:08 open-weather.go:42: 2021-04-06T22:37:08+08:00 Amd64 Windows
+[Info] 2021/04/06 22:38:26 open-weather.go:42: 2021-04-06T22:38:26+08:00 Amd64 Windows
+[Info] 2021/04/06 23:20:47 open-weather.go:42: 2021-04-06T23:20:47+08:00 Amd64 Windows
+[Info] 2021/04/06 23:21:26 open-weather.go:42: 2021-04-06T23:21:26+08:00 Amd64 Windows
+[Info] 2021/04/07 21:25:48 open-weather.go:42: 2021-04-07T21:25:48+08:00 Amd64 Windows
+[Info] 2021/04/07 21:29:02 open-weather.go:42: 2021-04-07T21:29:02+08:00 Amd64 Windows
+[Info] 2021/04/07 21:29:28 open-weather.go:42: 2021-04-07T21:29:28+08:00 Amd64 Windows
+[Info] 2021/04/07 21:30:16 open-weather.go:42: 2021-04-07T21:30:16+08:00 Amd64 Windows
+[Info] 2021/04/07 22:18:44 open-weather.go:42: 2021-04-07T22:18:44+08:00 Amd64 Windows
+[Info] 2021/04/07 22:23:05 open-weather.go:42: 2021-04-07T22:23:05+08:00 Amd64 Windows
+[Info] 2021/04/07 22:36:54 open-weather.go:42: 2021-04-07T22:36:54+08:00 Amd64 Windows
+[Info] 2021/04/07 22:38:19 open-weather.go:42: 2021-04-07T22:38:19+08:00 Amd64 Windows
+[Info] 2021/04/07 22:43:36 open-weather.go:42: 2021-04-07T22:43:36+08:00 Amd64 Windows
+[Info] 2021/04/07 22:47:51 open-weather.go:42: 2021-04-07T22:47:51+08:00 Amd64 Windows
+[Info] 2021/04/07 23:02:31 open-weather.go:42: 2021-04-07T23:02:31+08:00 Amd64 Windows
+[Info] 2021/04/07 23:13:31 open-weather.go:42: 2021-04-07T23:13:31+08:00 Amd64 Windows
+[Info] 2021/04/07 23:30:57 open-weather.go:42: 2021-04-07T23:30:57+08:00 Amd64 Windows
+[Info] 2021/04/07 23:35:04 open-weather.go:42: 2021-04-07T23:35:04+08:00 Amd64 Windows
+[Info] 2021/04/07 23:38:38 open-weather.go:42: 2021-04-07T23:38:38+08:00 Amd64 Windows
+[Info] 2021/04/07 23:39:36 open-weather.go:42: 2021-04-07T23:39:36+08:00 Amd64 Windows
+[Info] 2021/04/07 23:40:28 open-weather.go:42: 2021-04-07T23:40:28+08:00 Amd64 Windows
+[Info] 2021/04/07 23:42:15 open-weather.go:42: 2021-04-07T23:42:15+08:00 Amd64 Windows
+=======
 [Info] 2021/04/08 09:56:15 open-weather.go:42: 2021-04-08T09:56:15+08:00 Amd64 Windows
 [Info] 2021/04/08 16:01:19 open-weather.go:42: 2021-04-08T16:01:19+08:00 Amd64 Windows
 [Info] 2021/04/08 16:06:31 open-weather.go:42: 2021-04-08T16:06:31+08:00 Amd64 Windows
@@ -78,8 +112,4 @@
 [Info] 2021/04/08 17:40:47 open-weather.go:42: 2021-04-08T17:40:47+08:00 Amd64 Windows
 [Info] 2021/04/08 17:58:22 open-weather.go:42: 2021-04-08T17:58:22+08:00 Amd64 Windows
 [Info] 2021/04/08 18:04:58 open-weather.go:42: 2021-04-08T18:04:58+08:00 Amd64 Windows
-[Info] 2021/04/08 18:11:02 open-weather.go:42: 2021-04-08T18:11:02+08:00 Amd64 Windows
-[Info] 2021/04/08 18:12:02 open-weather.go:42: 2021-04-08T18:12:02+08:00 Amd64 Windows
-[Info] 2021/04/08 18:12:44 open-weather.go:42: 2021-04-08T18:12:44+08:00 Amd64 Windows
-[Info] 2021/04/08 18:18:05 open-weather.go:42: 2021-04-08T18:18:05+08:00 Amd64 Windows
-[Info] 2021/04/08 18:18:27 open-weather.go:42: 2021-04-08T18:18:27+08:00 Amd64 Windows
+>>>>>>> 3d9a3318658103029bedeccf2e2d9fb07ce6183d
