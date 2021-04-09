@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"fmt"
 	"gin_demo/middleware"
 	"gin_demo/model"
 	"gin_demo/utils/errmsg"
@@ -17,7 +16,6 @@ func Login(c *gin.Context) {
 
 	var token string
 	var code int
-	fmt.Println(data.Password)
 	//验证密码是否通过
 	code = model.CheckLogin(data.Email, data.Password)
 	if code == errmsg.SUCCSE {

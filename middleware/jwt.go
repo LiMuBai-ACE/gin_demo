@@ -103,7 +103,6 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 		if time.Now().Unix() > key.ExpiresAt {
 			code = errmsg.ERROR_TOKEN_RUNIME
 			c.JSON(http.StatusOK, gin.H{
