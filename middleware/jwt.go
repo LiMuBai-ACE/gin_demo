@@ -92,9 +92,9 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 		key, tCode := CheckToken(checkToken[1])
-		if tCode != nil {
+		// 不等于nil 返回不正确 则直接返回
+		if tCode != nil && tCode != 200 {
 			code = errmsg.ERROR_TOKEN_WRONG
 			c.JSON(http.StatusOK, gin.H{
 				"code": 401,
@@ -112,7 +112,6 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 		c.Set("email", key.Email)
 		c.Next()
 	}

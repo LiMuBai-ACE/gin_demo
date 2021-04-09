@@ -54,7 +54,7 @@ func UserInfo(c *gin.Context) {
 	}
 
 	key, tCode := middleware.CheckToken(checkToken[1])
-	if tCode != nil {
+	if tCode != nil && tCode != 200 {
 		code = errmsg.ERROR_TOKEN_WRONG
 		c.JSON(http.StatusOK, gin.H{
 			"code": 401,

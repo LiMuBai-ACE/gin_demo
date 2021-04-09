@@ -23,7 +23,6 @@ func InitDB() {
 		utils.DbPort,
 		utils.DbName,
 	)
-
 	Db, Err = gorm.Open(utils.Db, args)
 	if Err != nil {
 		panic("failed to connect database, err" + Err.Error())
