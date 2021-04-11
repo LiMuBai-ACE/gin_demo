@@ -32,53 +32,14 @@ func Login(c *gin.Context) {
 // 利用token查询用户信息
 func UserInfo(c *gin.Context) {
 	tokenHerder := c.Request.Header.Get("Authorization") // 拿到写入的请求头token 进行验证
-	if tokenHerder == "" {
-		code = errmsg.ERROR_TOKEN_EXIST
-		c.JSON(http.StatusOK, gin.H{
-			"code": 401,
-			"msg":  errmsg.GetErrmsg(code),
-		})
-		c.Abort()
-		return
-	}
-
 	checkToken := strings.SplitN(tokenHerder, " ", 2)
-	if len(checkToken) != 2 && checkToken[0] != "Bearer" {
-		code = errmsg.ERROR_TOKEN_WRONG
-		c.JSON(http.StatusOK, gin.H{
-			"code": 401,
-			"msg":  errmsg.GetErrmsg(code),
-		})
-		c.Abort()
-		return
-	}
 
-	key, tCode := middleware.CheckToken(checkToken[1])
-	if tCode != nil && tCode != 200 {
-		code = errmsg.ERROR_TOKEN_WRONG
-		c.JSON(http.StatusOK, gin.H{
-			"code": 401,
-			"msg":  errmsg.GetErrmsg(code),
-		})
-		c.Abort()
-		return
-	}
+	key, _ := middleware.CheckToken(checkToken[1])
 	data, _ := model.CheckUser(key.Email, 0, "")
-	if data.ID > 0 {
-		code = errmsg.SUCCSE
-		c.JSON(http.StatusOK, gin.H{
-			"code": code,
-			"data": data,
-			"msg":  errmsg.GetErrmsg(code),
-		})
-
-	} else {
-		code = errmsg.ERROR_USER_NOT_EXIST
-		c.JSON(http.StatusOK, gin.H{
-			"code": 401,
-			"msg":  errmsg.GetErrmsg(code),
-		})
-	}
-	return
+	c.JSON(http.StatusOK, gin.H{
+		"code": errmsg.SUCCSE,
+		"data": data,
+		"msg":  errmsg.GetErrmsg(code),
+	})
 
 }

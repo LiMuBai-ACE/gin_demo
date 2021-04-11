@@ -59,11 +59,11 @@ func AddUser(c *gin.Context) {
 		})
 		return
 	}
-	user.Username = user.Email                                                       // 邮箱默认为用户昵称
-	user.Password = utils.ScryptStr(user.Password)                                   // 密码加密
-	user.Confirm = utils.ScryptStr(user.Confirm)                                     // 确认密码加密
-	user.Role = 1                                                                    // 默认权限
-	user.Avatar = "//qlogo3.store.qq.com/qzone/1440955662/1440955662/100?1598071203" // 默认头像
+	user.Username = user.Email                                                                // 邮箱默认为用户昵称
+	user.Password = utils.ScryptStr(user.Password)                                            // 密码加密
+	user.Confirm = utils.ScryptStr(user.Confirm)                                              // 确认密码加密
+	user.Role = 1                                                                             // 默认权限
+	user.Avatar = "https://img1.baidu.com/it/u=2616784566,1911111413&fm=15&fmt=auto&gp=0.jpg" // 默认头像
 
 	//添加数据
 	code = model.CreateUser(&user)

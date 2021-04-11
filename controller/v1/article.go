@@ -1,11 +1,13 @@
 package v1
 
 import (
+	"gin_demo/middleware"
 	"gin_demo/model"
 	"gin_demo/utils/errmsg"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 //返回错误
@@ -16,12 +18,12 @@ func Msg(code int, msg string, c *gin.Context) {
 	})
 }
 
-//添加文章
-func AddArticle(c *gin.Context) {
+//添加 - 修改文章
+func Article(c *gin.Context) {
 	var article model.Article
 
 	_ = c.ShouldBindJSON(&article)
-	if article.Category.Name == "" {
+	if article.Cid == 0 {
 		Msg(500, "分类不能为空!", c)
 		return
 	}
@@ -37,10 +39,10 @@ func AddArticle(c *gin.Context) {
 		Msg(500, "文章介绍不能为空!", c)
 		return
 	}
-	if article.Img == "" {
-		Msg(500, "文章封面不能为空!", c)
-		return
-	}
+	//if article.Img == "" {
+	//	Msg(500, "文章封面不能为空!", c)
+	//	return
+	//}
 
 	//验证title是否重复
 	data, _ := model.CheckArt(0, article.Title)
@@ -49,11 +51,27 @@ func AddArticle(c *gin.Context) {
 		return
 	}
 
-	code = model.CreateArt(&article)
-	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"msg":    errmsg.GetErrmsg(code),
-	})
+	tokenHerder := c.Request.Header.Get("Authorization") // 拿到写入的请求头token 进行验证
+	checkToken := strings.SplitN(tokenHerder, " ", 2)
+	key, _ := middleware.CheckToken(checkToken[1])
+	user, _ := model.CheckUser(key.Email, 0, "")
+	article.Uid = user.ID
+
+	//添加文章
+	if article.ID == 0 {
+		code = model.CreateArt(&article)
+		c.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
+		})
+	} else {
+		//	修改文章
+		code = model.EditArt(&article)
+		c.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
+		})
+	}
 }
 
 //查询单个文章
@@ -75,42 +93,17 @@ func GetArticleList(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 	cid, _ := strconv.Atoi(c.Query("cid"))
-	if pageSize == 0 {
-		pageSize = -1
-	}
-	if pageNum == 0 {
-		pageNum = -1
-	}
 	data, total := model.GetArtList(pageSize, pageNum, cid)
+
+	m := make(map[string]interface{})
+	m["list"] = data
+	m["pageNum"] = pageNum
+	m["pageSize"] = pageSize
+	m["total"] = total
 	code := errmsg.SUCCSE
 	c.JSON(http.StatusOK, gin.H{
-		"code":       code,
-		"data":       data,
-		"pageNum":    pageNum,
-		"pageSize":   pageSize,
-		"totalCount": total,
-		"msg":        errmsg.GetErrmsg(code),
-	})
-}
-
-//修改文章
-func EditArt(c *gin.Context) {
-	var article model.Article
-	_ = c.ShouldBindJSON(&article)
-
-	//验证标题是否重复
-	data, _ := model.CheckArt(0, article.Title)
-	if data.ID > 0 {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "标题名称已存在,请更换标题名称",
-		})
-		return
-	}
-
-	code = model.EditArt(&article)
-	c.JSON(http.StatusOK, gin.H{
 		"code": code,
+		"data": m,
 		"msg":  errmsg.GetErrmsg(code),
 	})
 }

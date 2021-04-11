@@ -1,18 +1,23 @@
 package model
 
 import (
+	"fmt"
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Category struct {
-	Model
-	Name string `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
+	ID        uint       `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
+	Name      string     `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
 }
 
 //UId       string     `gorm:"type:varchar(20);not null;comment:'创建人id'" json:"u_id"`
 
-//查询用户是否存在 并返回
+//查询分类是否存在 并返回
 func CheckCategory(id int, name string) (data Category, error interface{}) {
 	var category Category
 	//First 查出第一个参数
@@ -28,6 +33,7 @@ func CheckCategory(id int, name string) (data Category, error interface{}) {
 
 //新增分类
 func CreateCategory(data *Category) int {
+	fmt.Println(data)
 	err := Db.Create(&data).Error
 	if err != nil {
 		return errmsg.ERROR

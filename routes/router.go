@@ -26,15 +26,10 @@ func InitRouter() {
 		Auth.POST("user/delete", v1.DeleteUser)
 		Auth.POST("user/edit", v1.EditUser)
 		//	分类模块的路由接口
-		Auth.POST("category/add", v1.AddCategory)
-		//Auth.GET("category", v1.GetCategory) // 无需单个查询 直接在列表修改
-
 		Auth.POST("category/delete", v1.DeleteCategory)
-		Auth.POST("category/edit", v1.EditCategory)
+		Auth.POST("category", v1.Category)
 		//	文章模块的路由接口
-		Auth.POST("article/add", v1.AddArticle)
-
-		Auth.POST("article/edit", v1.EditArt)
+		Auth.POST("article", v1.Article)
 		Auth.POST("article/delete", v1.DeleteArt)
 
 		//	上传文件
@@ -42,7 +37,6 @@ func InitRouter() {
 	}
 
 	router := r.Group("api/v1")
-	router.Use(middleware.Cors())
 	{
 		router.POST("user/add", v1.AddUser)
 		router.POST("login", v1.Login)
@@ -53,7 +47,6 @@ func InitRouter() {
 
 	//关于天气的
 	wrouter := r.Group("/")
-	wrouter.Use(middleware.Cors())
 	{
 		wrouter.GET("/weather", weather.ShowWeather)
 		wrouter.GET("/citylist", weather.ShowCityList)

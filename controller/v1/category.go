@@ -8,11 +8,31 @@ import (
 	"strconv"
 )
 
-//添加分类
-func AddCategory(c *gin.Context) {
-	var category model.Category
+//查询分类
+func GetCategoryList(c *gin.Context) {
+	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
+	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
+	data, total := model.GetCategoryList(pageSize, pageNum)
 
+	m := make(map[string]interface{})
+	m["list"] = data
+	m["pageNum"] = pageNum
+	m["pageSize"] = pageSize
+	m["total"] = total
+
+	code := errmsg.SUCCSE
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"data": m,
+		"msg":  errmsg.GetErrmsg(code),
+	})
+}
+
+// 添加-修改分类
+func Category(c *gin.Context) {
+	var category model.Category
 	c.ShouldBindJSON(&category)
+
 	//	验证不能为空
 	if category.Name == "" {
 		c.JSON(http.StatusOK, gin.H{
@@ -21,49 +41,6 @@ func AddCategory(c *gin.Context) {
 		})
 		return
 	}
-	//验证name是否重复
-	data, _ := model.CheckCategory(0, category.Name)
-	if data.ID > 0 {
-		c.JSON(http.StatusOK, gin.H{
-			"code": 400,
-			"msg":  "分类名称已存在,请更换分类名称",
-		})
-		return
-	}
-
-	code = model.CreateCategory(&category)
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrmsg(code),
-	})
-}
-
-//查询分类
-func GetCategoryList(c *gin.Context) {
-	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
-	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
-	if pageSize == 0 {
-		pageSize = -1
-	}
-	if pageNum == 0 {
-		pageNum = -1
-	}
-	data, total := model.GetCategoryList(pageSize, pageNum)
-	code := errmsg.SUCCSE
-	c.JSON(http.StatusOK, gin.H{
-		"code":       code,
-		"data":       data,
-		"pageNum":    pageNum,
-		"pageSize":   pageSize,
-		"totalCount": total,
-		"msg":        errmsg.GetErrmsg(code),
-	})
-}
-
-//修改分类
-func EditCategory(c *gin.Context) {
-	var category model.Category
-	c.ShouldBindJSON(&category)
 
 	//验证name是否重复
 	data, _ := model.CheckCategory(0, category.Name)
@@ -75,11 +52,21 @@ func EditCategory(c *gin.Context) {
 		return
 	}
 
-	code = model.EditCategory(&category)
-	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrmsg(code),
-	})
+	// 创建和修改
+	if category.ID == 0 {
+		code = model.CreateCategory(&category)
+		c.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
+		})
+	} else {
+		code = model.EditCategory(&category)
+		c.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  errmsg.GetErrmsg(code),
+		})
+	}
+
 }
 
 //删除分类

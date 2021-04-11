@@ -3,18 +3,22 @@ package model
 import (
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
+	"time"
 )
 
 //foreignkey 关联关系
 type Article struct {
-	Category Category `gorm:"foreignkey:Cid;"json:"category"`
-	Model
-	Title   string `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
-	Cid     int    `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
-	Uid     int    `gorm:"type:int;not null;comment:'用户id'" json:"uid"`
-	Desc    string `gorm:"type:varchar(200);comment:'文章简介'" json:"desc"`
-	Content string `gorm:"type:longtext;comment:'文章内容'" json:"content"`
-	Img     string `gorm:"type:varchar(100);comment:'文章图片'" json:"img"`
+	Category  Category   `gorm:"foreignkey:Cid;"json:"category"`
+	ID        uint       `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
+	Title     string     `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
+	Cid       uint       `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
+	Uid       uint       `gorm:"type:int;comment:'用户id'" json:"uid"`
+	Desc      string     `gorm:"type:varchar(200);not null;comment:'文章简介'" json:"desc"`
+	Content   string     `gorm:"type:longtext;not null;comment:'文章内容'" json:"content"`
+	//Img       string     `gorm:"type:varchar(250);not null;comment:'文章图片'" json:"img"`
 }
 
 //查询文章是否存在 并返回
@@ -82,9 +86,9 @@ func EditArt(data *Article) int {
 	if data.Uid != 0 {
 		articleMaps["uid"] = data.Uid
 	}
-	if data.Img != "" {
-		articleMaps["img"] = data.Img
-	}
+	//if data.Img != "" {
+	//	articleMaps["img"] = data.Img
+	//}
 	err := Db.Model(&article).Where("id = ?", data.ID).Updates(articleMaps).Error
 	if err != nil {
 		return errmsg.ERROR
