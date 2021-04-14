@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"gin_demo/model"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
 	"github.com/dgrijalva/jwt-go"
@@ -92,6 +93,7 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+		//未能正常解析
 		key, tCode := CheckToken(checkToken[1])
 		// 不等于nil 返回不正确 则直接返回
 		if tCode != nil && tCode != 200 {
@@ -103,8 +105,22 @@ func JwtToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
+		// token过期
 		if time.Now().Unix() > key.ExpiresAt {
 			code = errmsg.ERROR_TOKEN_RUNIME
+			c.JSON(http.StatusOK, gin.H{
+				"code": 401,
+				"msg":  errmsg.GetErrmsg(code),
+			})
+			c.Abort()
+			return
+		}
+
+		// 用户不存在
+		data, _ := model.CheckUser(key.Email, 0, "")
+		if data.ID == 0 {
+			code = errmsg.ERROR_USER_NOT_EXIST
 			c.JSON(http.StatusOK, gin.H{
 				"code": 401,
 				"msg":  errmsg.GetErrmsg(code),
