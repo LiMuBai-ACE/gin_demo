@@ -8,3 +8,5 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 4000:4000
+    environment:
+      ENV: loacl # production develop
