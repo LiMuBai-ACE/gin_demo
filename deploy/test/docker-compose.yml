@@ -4,9 +4,9 @@ services:
   weatherinfos:
     image: gin_demo
     build:
-      context: .
+      context: ../..
       dockerfile: ./Dockerfile
     ports:
       - 4000:4000
     environment:
-      ENV: loacl # production develop
+      ENV: test # production develop
