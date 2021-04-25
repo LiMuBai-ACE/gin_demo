@@ -6,7 +6,7 @@ ENV GOPROXY=https://goproxy.cn,direct
 ENV GO111MODULE="on"
 
 # 工作区
-WORKDIR /go/src/app
+WORKDIR /app
 
 COPY go.mod go.mod
 COPY go.sum go.sum
@@ -16,7 +16,7 @@ RUN go mod download
 # 复制仓库源文件到容器里
 COPY . .
 
-RUN go build -o main.go .
+RUN go build -o /app/main .
 
 EXPOSE 4000
 
