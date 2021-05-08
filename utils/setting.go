@@ -27,8 +27,15 @@ var (
 
 func init() {
 	env := os.Getenv("env")
-	fmt.Println(env)
-	file, err := ini.Load(`config/develop.ini`)
+
+	var file *ini.File
+	var err interface{}
+	if env == "" {
+		file, err = ini.Load(`config/` + "local" + ".ini")
+	} else {
+
+		file, err = ini.Load(`config/` + env + ".ini")
+	}
 	if err != nil {
 		fmt.Println("配置文件读取错误，请检查文件路径:", err)
 	}
