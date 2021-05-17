@@ -44,13 +44,6 @@ func Article(c *gin.Context) {
 	//	return
 	//}
 
-	//验证title是否重复
-	data, _ := model.CheckArt(0, article.Title)
-	if data.ID > 0 {
-		Msg(500, "标题重复,请重新编辑标题!", c)
-		return
-	}
-
 	tokenHerder := c.Request.Header.Get("Authorization") // 拿到写入的请求头token 进行验证
 	checkToken := strings.SplitN(tokenHerder, " ", 2)
 	key, _ := middleware.CheckToken(checkToken[1])
@@ -59,6 +52,12 @@ func Article(c *gin.Context) {
 
 	//添加文章
 	if article.ID == 0 {
+		//验证title是否重复
+		data, _ := model.CheckArt(0, article.Title)
+		if data.ID > 0 {
+			Msg(500, "标题重复,请重新编辑标题!", c)
+			return
+		}
 		code = model.CreateArt(&article)
 		c.JSON(http.StatusOK, gin.H{
 			"code": code,
