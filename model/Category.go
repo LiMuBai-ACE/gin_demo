@@ -1,17 +1,16 @@
 package model
 
 import (
-	"fmt"
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
 )
 
 type Category struct {
-	ID        uint      `gorm:"primary_key" json:"id"`
-	CreatedAt JsonTime  `gorm:"type:time" json:"created_at"`
-	UpdatedAt JsonTime  `gorm:"type:time" json:"updated_at"`
-	DeletedAt *JsonTime `gorm:"type:time" sql:"index"  json:"deleted_at"`
-	Name      string    `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
+	ID        uint    `gorm:"primary_key" json:"id"`
+	CreatedAt MyTime  `gorm:"column:created_at" json:"created_at"`
+	UpdatedAt MyTime  `gorm:"column:updated_at" json:"updated_at"`
+	DeletedAt *MyTime `gorm:"column:deleted_at" sql:"index" json:"deleted_at"`
+	Name      string  `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
 }
 
 //UId       string     `gorm:"type:varchar(20);not null;comment:'创建人id'" json:"u_id"`
@@ -32,7 +31,6 @@ func CheckCategory(id int, name string) (data Category, error interface{}) {
 
 //新增分类
 func CreateCategory(data *Category) int {
-	fmt.Println(data)
 	err := Db.Create(&data).Error
 	if err != nil {
 		return errmsg.ERROR
