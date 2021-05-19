@@ -16,7 +16,7 @@ var Err error
 
 //连接数据库 创建db实例
 func InitDB() {
-	args := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	args := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true&loc=Local",
 		utils.DbUser,
 		utils.DbPassWord,
 		utils.DbHost,

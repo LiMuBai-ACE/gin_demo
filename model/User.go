@@ -3,37 +3,36 @@ package model
 import (
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 //结构体值类型
 type User struct {
-	ID        uint       `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
-	Username  string     `gorm:"type:varchar(100);comment:'昵称'" json:"username" label:"昵称"`
-	Avatar    string     `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
-	Email     string     `gorm:"type:varchar(100);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
-	Password  string     `gorm:"type:varchar(20);not null;comment:'密码'" json:"password" validate:"required,min=6,max=20" label:"密码"`
-	Confirm   string     `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"confirm" validate:"required,min=6,max=20" label:"密码"`
-	Phone     string     `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
-	Role      int        `gorm:"type:int;default:1;comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
+	ID        uint      `gorm:"primary_key" json:"id"`
+	CreatedAt JsonTime  `gorm:"type:time" json:"created_at"`
+	UpdatedAt JsonTime  `gorm:"type:time" json:"updated_at"`
+	DeletedAt *JsonTime `gorm:"type:time" sql:"index" json:"deleted_at"`
+	Username  string    `gorm:"type:varchar(100);comment:'昵称'" json:"username" label:"昵称"`
+	Avatar    string    `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
+	Email     string    `gorm:"type:varchar(100);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
+	Password  string    `gorm:"type:varchar(20);not null;comment:'密码'" json:"password" validate:"required,min=6,max=20" label:"密码"`
+	Confirm   string    `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"confirm" validate:"required,min=6,max=20" label:"密码"`
+	Phone     string    `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
+	Role      int       `gorm:"type:int;default:1;comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
 }
 
 // 定义返回值
 type RUser struct {
-	ID        uint       `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
-	Username  string     `gorm:"type:varchar(100);comment:'昵称'" json:"username" label:"昵称"`
-	Avatar    string     `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
-	Email     string     `gorm:"type:varchar(100);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
-	Password  string     `gorm:"type:varchar(20);not null;comment:'密码'" json:"-" validate:"required,min=6,max=20" label:"密码"`
-	Confirm   string     `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"-" validate:"required,min=6,max=20" label:"密码"`
-	Phone     string     `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
-	Role      int        `gorm:"type:int;default:1;comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
+	ID        uint      `gorm:"primary_key" json:"id"`
+	CreatedAt JsonTime  `gorm:"type:time"  json:"created_at"`
+	UpdatedAt JsonTime  `gorm:"type:time"  json:"updated_at"`
+	DeletedAt *JsonTime `gorm:"type:time" sql:"index"  json:"deleted_at"`
+	Username  string    `gorm:"type:varchar(100);comment:'昵称'" json:"username" label:"昵称"`
+	Avatar    string    `gorm:"type:varchar(250);comment:'头像'" json:"avatar" label:"头像"`
+	Email     string    `gorm:"type:varchar(100);not null;comment:'电子邮箱'" json:"email" validate:"required" label:"邮箱"`
+	Password  string    `gorm:"type:varchar(20);not null;comment:'密码'" json:"-" validate:"required,min=6,max=20" label:"密码"`
+	Confirm   string    `gorm:"type:varchar(20);not null;comment:'确认密码'" json:"-" validate:"required,min=6,max=20" label:"密码"`
+	Phone     string    `gorm:"type:varchar(20);comment:'手机号码'" json:"phone"`
+	Role      int       `gorm:"type:int;default:1;comment:'权限 1:管理员 2:阅读者'" json:"role" label:"角色权限"`
 }
 
 // 指定表名 继承

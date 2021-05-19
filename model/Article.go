@@ -3,21 +3,20 @@ package model
 import (
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 //foreignkey 关联关系
 type Article struct {
-	Category  Category   `gorm:"foreignkey:Cid;"json:"category"`
-	ID        uint       `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
-	Title     string     `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
-	Cid       uint       `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
-	Uid       uint       `gorm:"type:int;comment:'用户id'" json:"uid"`
-	Desc      string     `gorm:"type:varchar(200);not null;comment:'文章简介'" json:"desc"`
-	Content   string     `gorm:"type:longtext;not null;comment:'文章内容'" json:"content"`
+	Category  Category  `gorm:"foreignkey:Cid;"json:"category"`
+	ID        uint      `gorm:"primary_key" json:"id"`
+	CreatedAt JsonTime  `gorm:"type:time" json:"created_at"`
+	UpdatedAt JsonTime  `gorm:"type:time" json:"updated_at"`
+	DeletedAt *JsonTime `gorm:"type:time" sql:"index"  json:"deleted_at"`
+	Title     string    `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
+	Cid       uint      `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
+	Uid       uint      `gorm:"type:int;comment:'用户id'" json:"uid"`
+	Desc      string    `gorm:"type:varchar(200);not null;comment:'文章简介'" json:"desc"`
+	Content   string    `gorm:"type:longtext;not null;comment:'文章内容'" json:"content"`
 	//Img       string     `gorm:"type:varchar(250);not null;comment:'文章图片'" json:"img"`
 }
 
