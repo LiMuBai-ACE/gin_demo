@@ -5,19 +5,16 @@ import (
 	"gin_demo/utils/errmsg"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 )
 
 //查询分类
 func GetCategoryList(c *gin.Context) {
-	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
-	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
-	data, total := model.GetCategoryList(pageSize, pageNum)
+	data, total := model.GetCategoryList()
 
 	m := make(map[string]interface{})
 	m["list"] = data
-	m["pageNum"] = pageNum
-	m["pageSize"] = pageSize
+	//m["pageNum"] = pageNum
+	//m["pageSize"] = pageSize
 	m["total"] = total
 
 	code := errmsg.SUCCSE

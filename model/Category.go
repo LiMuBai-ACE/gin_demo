@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"gin_demo/utils/errmsg"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 type Category struct {
-	ID        uint       `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `sql:"index" json:"deleted_at"`
-	Name      string     `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
+	ID        uint      `gorm:"primary_key" json:"id"`
+	CreatedAt JsonTime  `gorm:"type:time" json:"created_at"`
+	UpdatedAt JsonTime  `gorm:"type:time" json:"updated_at"`
+	DeletedAt *JsonTime `gorm:"type:time" sql:"index"  json:"deleted_at"`
+	Name      string    `gorm:"type:varchar(20);not null;comment:'分类名称'" json:"name"`
 }
 
 //UId       string     `gorm:"type:varchar(20);not null;comment:'创建人id'" json:"u_id"`
@@ -42,11 +41,11 @@ func CreateCategory(data *Category) int {
 }
 
 //查询标签列表
-func GetCategoryList(pageSize int, PageNum int) ([]Category, int) {
+func GetCategoryList() ([]Category, int) {
 	var category []Category
 	var total int // 总数
 	//一页多少个
-	err := Db.Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&category).Count(&total).Error
+	err := Db.Find(&category).Count(&total).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, 0
 	}
