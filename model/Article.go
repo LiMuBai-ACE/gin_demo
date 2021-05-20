@@ -8,8 +8,8 @@ import (
 //foreignkey 关联关系
 type Article struct {
 	Category  Category `gorm:"foreignkey:Cid;"json:"category"`
+	User      RUser    `gorm:"foreignkey:Uid;"json:"user"`
 	Tag       Tag      `gorm:"foreignkey:Tid;"json:"tag"`
-	User      User     `gorm:"foreignkey:Uid;"json:"user"`
 	ID        uint     `gorm:"primary_key" json:"id"`
 	CreatedAt MyTime   `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt MyTime   `gorm:"column:updated_at" json:"updated_at"`
@@ -28,9 +28,9 @@ func CheckArt(id int, title string) (data Article, error interface{}) {
 	var article Article
 	//First 查出第一个参数
 	if id != 0 {
-		Db.Preload("Category").Where("id = ?", id).First(&article)
+		Db.Preload("Category").Preload("User").Preload("Tag").Where("id = ?", id).First(&article)
 	} else if title != "" {
-		Db.Preload("Category").Where("title = ?", title).First(&article)
+		Db.Preload("Category").Preload("User").Preload("Tag").Where("title = ?", title).First(&article)
 	} else {
 		return article, "error"
 	}
@@ -52,13 +52,13 @@ func GetArtList(pageSize int, PageNum int, cid int) ([]Article, int) {
 	var total int // 总数
 	//一页多少个
 	if cid != 0 {
-		err := Db.Preload("Category").Where("cid = ?", cid).Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
+		err := Db.Preload("Category").Preload("User").Preload("Tag").Where("cid = ?", cid).Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
 			return nil, 0
 		}
 	} else {
 		// 预加载 Preload
-		err := Db.Preload("Category").Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
+		err := Db.Preload("Category").Preload("User").Preload("Tag").Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
 			return nil, 0
 		}

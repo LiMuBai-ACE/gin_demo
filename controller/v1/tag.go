@@ -40,7 +40,7 @@ func Tag(c *gin.Context) {
 	}
 
 	//验证name是否重复
-	data, _ := model.CheckCategory(0, tag.Name)
+	data, _ := model.CheckTag(0, tag.Name)
 	if data.ID > 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code": 400,
