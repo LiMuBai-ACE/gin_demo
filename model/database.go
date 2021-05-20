@@ -31,7 +31,7 @@ func InitDB() {
 	Db.SingularTable(true)
 
 	//创建数据表
-	Db.AutoMigrate(&User{}, &Category{}, &Article{})
+	Db.AutoMigrate(&User{}, &Category{}, &Article{}, &Tag{})
 
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
 	Db.DB().SetMaxIdleConns(10)

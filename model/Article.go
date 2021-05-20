@@ -8,12 +8,15 @@ import (
 //foreignkey 关联关系
 type Article struct {
 	Category  Category `gorm:"foreignkey:Cid;"json:"category"`
+	Tag       Tag      `gorm:"foreignkey:Tid;"json:"tag"`
+	User      User     `gorm:"foreignkey:Uid;"json:"user"`
 	ID        uint     `gorm:"primary_key" json:"id"`
 	CreatedAt MyTime   `gorm:"column:created_at" json:"created_at"`
 	UpdatedAt MyTime   `gorm:"column:updated_at" json:"updated_at"`
 	DeletedAt *MyTime  `gorm:"column:deleted_at" sql:"index" json:"deleted_at"`
 	Title     string   `gorm:"type:varchar(100);not null;comment:'文章标题'" json:"title"`
 	Cid       uint     `gorm:"type:int;not null;comment:'分类id'" json:"cid"`
+	Tid       uint     `gorm:"type:int;not null;comment:'标签id'" json:"tid"`
 	Uid       uint     `gorm:"type:int;comment:'用户id'" json:"uid"`
 	Desc      string   `gorm:"type:varchar(200);not null;comment:'文章简介'" json:"desc"`
 	Content   string   `gorm:"type:longtext;not null;comment:'文章内容'" json:"content"`
