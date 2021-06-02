@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var JwtKey = []byte(utils.JwtKey)
+var JwtKey = []byte(utils.Data.Server.Jwtkey)
 
 type MyClaims struct {
 	jwt.StandardClaims

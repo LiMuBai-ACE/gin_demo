@@ -10,7 +10,7 @@ import (
 
 //routerV1 接口的第一个版本
 func InitRouter() {
-	gin.SetMode(utils.AppMode)
+	gin.SetMode(utils.Data.Server.Mode)
 	r := gin.New()
 	r.Use(middleware.Loggoer())
 	r.Use(gin.Recovery())
@@ -60,5 +60,5 @@ func InitRouter() {
 		wrouter.GET("/citylist", weather.ShowCityList)
 		wrouter.GET("/weather/status", weather.ShowStatus)
 	}
-	panic(r.Run(utils.HttpPort))
+	panic(r.Run(utils.Data.Server.Port))
 }

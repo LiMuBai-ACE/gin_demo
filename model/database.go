@@ -3,9 +3,10 @@ package model
 import (
 	"fmt"
 	"gin_demo/utils"
+	"time"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 // 创建db实例值
@@ -17,13 +18,13 @@ var Err error
 //连接数据库 创建db实例
 func InitDB() {
 	args := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true&loc=Local",
-		utils.DbUser,
-		utils.DbPassWord,
-		utils.DbHost,
-		utils.DbPort,
-		utils.DbName,
+		utils.Data.Mysql.User,
+		utils.Data.Mysql.Password,
+		utils.Data.Mysql.Host,
+		utils.Data.Mysql.Port,
+		utils.Data.Mysql.Name,
 	)
-	Db, Err = gorm.Open(utils.Db, args)
+	Db, Err = gorm.Open(utils.Data.Mysql.Db, args)
 	if Err != nil {
 		panic("failed to connect database, err" + Err.Error())
 	}

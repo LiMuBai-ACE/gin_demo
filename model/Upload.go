@@ -9,10 +9,10 @@ import (
 	"mime/multipart"
 )
 
-var AccessKey = utils.AccessKey
-var SecretKey = utils.SecretKey
-var Bucket = utils.Bucket
-var ImgUrl = utils.QiniuSever
+var AccessKey = utils.Data.Qiniu.Accesskey
+var SecretKey = utils.Data.Qiniu.Secretkey
+var Bucket = utils.Data.Qiniu.Bucket
+var ImgUrl = utils.Data.Qiniu.Sever
 
 func UpLoadFile(file multipart.File, fileSize int64) (string, int) {
 	putPolicy := storage.PutPolicy{

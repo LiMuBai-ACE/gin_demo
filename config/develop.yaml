@@ -1,0 +1,19 @@
+server:
+  mode: "test" # 生产环境
+  port: ":4000"   # 服务端口
+  jwtkey: "1998dabing" # jwtkey
+
+mysql: # 数据库
+  db: "mysql"
+  host: "192.168.1.191"
+  port: "3306"    # mysql 端口
+  user: "root"    # 用户名
+  password: "Li-123456" # mysql密码
+  name: "gin_demo"  # 数据库名字
+
+qiniu: #七牛云
+  accesskey: "pWaI8lq9elb356iJcpJxqbpRJrYh_WmV0wEiC_56"
+  secretkey: "P_8t85mLW7_tWWMABOASZmMPPiqlLHCd3AS_TSuI"
+  bucket: "gin-demo"
+  server: "http://qmek01nhu.hd-bkt.clouddn.com"
+

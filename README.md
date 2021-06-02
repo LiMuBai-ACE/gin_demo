@@ -8,7 +8,8 @@
 
   二.构建项目文件结构
   
-    
+    docker login -u 李是一个生活家 -p 1998dabing registry.cn-shanghai.aliyuncs.com
+	  docker push registry.cn-shanghai.aliyuncs.com/limubai/gin_demo:latest
     
     
     

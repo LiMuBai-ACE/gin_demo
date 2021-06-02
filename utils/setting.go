@@ -2,66 +2,58 @@ package utils
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 
-	"gopkg.in/ini.v1"
+	"gopkg.in/yaml.v2"
 )
 
-var (
-	AppMode  string
-	HttpPort string
-	JwtKey   string
+type DataStruct struct {
+	Server struct {
+		Mode   string
+		Port   string
+		Jwtkey string
+	}
+	Mysql struct {
+		Db       string
+		Host     string
+		Port     string
+		User     string
+		Password string
+		Name     string
+	}
+	Qiniu struct {
+		Accesskey string
+		Secretkey string
+		Bucket    string
+		Sever     string
+	}
+}
 
-	Db         string
-	DbHost     string
-	DbPort     string
-	DbUser     string
-	DbPassWord string
-	DbName     string
-
-	AccessKey  string
-	SecretKey  string
-	Bucket     string
-	QiniuSever string
-)
+var Data = new(DataStruct)
 
 func init() {
-	env := os.Getenv("env")
 
-	var file *ini.File
-	var err interface{}
+	if initConfig() != nil {
+		fmt.Println("配置文件读取错误，请检查文件路径:", initConfig())
+	}
+	fmt.Printf("%+v", Data)
+}
+
+func initConfig() error {
+	env := os.Getenv("ENV")
+	fmt.Println(env, "---------------")
+	var err error
+	var data []byte
 	if env == "" {
-		file, err = ini.Load(`config/` + "local" + ".ini")
+		data, err = ioutil.ReadFile(`config/` + "local" + ".yaml")
 	} else {
-
-		file, err = ini.Load(`config/` + env + ".ini")
+		data, err = ioutil.ReadFile(`./config/` + env + ".yaml")
 	}
+
 	if err != nil {
-		fmt.Println("配置文件读取错误，请检查文件路径:", err)
+		return err
 	}
-	LoadServer(file)
-	LoadData(file)
-	LoadQiniu(file)
-}
-
-func LoadServer(file *ini.File) {
-	AppMode = file.Section("server").Key("AppMode").MustString("debug")
-	HttpPort = file.Section("server").Key("HttpPort").MustString(":8080")
-	JwtKey = file.Section("server").Key("JwtKey").MustString("1998dabing")
-}
-
-func LoadData(file *ini.File) {
-	Db = file.Section("database").Key("Db").MustString("debug")
-	DbHost = file.Section("database").Key("DbHost").MustString("localhost")
-	DbPort = file.Section("database").Key("DbPort").MustString("3306")
-	DbUser = file.Section("database").Key("DbUser").MustString("root")
-	DbPassWord = file.Section("database").Key("DbPassWord").MustString("Li-123456")
-	DbName = file.Section("database").Key("DbName").MustString("gin_demo")
-}
-
-func LoadQiniu(file *ini.File) {
-	AccessKey = file.Section("qiniu").Key("AccessKey").MustString("pWaI8lq9elb356iJcpJxqbpRJrYh_WmV0wEiC_56")
-	SecretKey = file.Section("qiniu").Key("SecretKey").MustString("P_8t85mLW7_tWWMABOASZmMPPiqlLHCd3AS_TSuI")
-	Bucket = file.Section("qiniu").Key("Bucket").MustString("gin-demo")
-	QiniuSever = file.Section("qiniu").Key("QiniuSever").MustString("http://qmek01nhu.hd-bkt.clouddn.com/")
+	err = yaml.Unmarshal(data, Data)
+	return nil
 }
