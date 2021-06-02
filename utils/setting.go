@@ -41,14 +41,14 @@ func init() {
 }
 
 func initConfig() error {
-	env := os.Getenv("ENV")
+	env := os.Getenv("GIN_ENV")
 	fmt.Println(env, "---------------")
 	var err error
 	var data []byte
 	if env == "" {
 		data, err = ioutil.ReadFile(`config/` + "local" + ".yaml")
 	} else {
-		data, err = ioutil.ReadFile(`./config/` + env + ".yaml")
+		data, err = ioutil.ReadFile(`config/` + env + ".yaml")
 	}
 
 	if err != nil {

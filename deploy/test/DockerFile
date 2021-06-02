@@ -1,10 +1,9 @@
 FROM golang:1.13-alpine3.10 AS builder
 
+WORKDIR /app
 ENV GOPROXY=https://goproxy.cn,direct
 ENV GO111MODULE="on"
-ENV ENV="develop"
-
-WORKDIR /app
+ENV GIN_ENV="develop"
 
 COPY go.mod go.mod
 COPY go.sum go.sum
@@ -16,9 +15,10 @@ COPY . .
 RUN go build -o main /app/main.go
 
 FROM alpine:latest
+ENV GIN_ENV="develop"
 
 COPY --from=builder /app/main .
-
+COPY --from=builder /app/config /config/
 EXPOSE 4000
 
 ENTRYPOINT  ["./main"]
