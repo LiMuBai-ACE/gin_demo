@@ -73,6 +73,20 @@ func Article(c *gin.Context) {
 	}
 }
 
+func UpdateReading(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Query("id"))
+	data, _ := model.CheckArt(id, "")
+	if data.ID == 0 {
+		Msg(500, "抱歉,未找到文章,该文章已关闭,或者被删除", c)
+		return
+	}
+	code = model.UpdateReading(id)
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"data": errmsg.GetErrmsg(code),
+	})
+}
+
 //查询单个文章
 func GetArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Query("id"))

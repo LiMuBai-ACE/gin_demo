@@ -50,6 +50,7 @@ func InitRouter() {
 		router.GET("tags", v1.GetCTagList)
 		//文章
 		router.GET("article", v1.GetArticle)
+		router.GET("update/reading", v1.UpdateReading)
 		router.GET("articles", v1.GetArticleList)
 	}
 

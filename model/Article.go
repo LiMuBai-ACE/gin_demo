@@ -20,6 +20,7 @@ type Article struct {
 	Uid       uint     `gorm:"type:int;comment:'用户id'" json:"uid"`
 	Desc      string   `gorm:"type:varchar(200);not null;comment:'文章简介'" json:"desc"`
 	Content   string   `gorm:"type:longtext;not null;comment:'文章内容'" json:"content"`
+	Reading   int      `gorm:"type:int;comment:'阅读量'" json:"reading"`
 	//Img       string     `gorm:"type:varchar(250);not null;comment:'文章图片'" json:"img"`
 }
 
@@ -35,6 +36,14 @@ func CheckArt(id int, title string) (data Article, error interface{}) {
 		return article, "error"
 	}
 	return article, nil
+}
+
+func UpdateReading(id int) int {
+	err := Db.Model(&Article{}).Where("id = ?", id).UpdateColumn("reading", gorm.Expr("reading+ ?", 1)).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
 }
 
 //新增文章
