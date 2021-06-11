@@ -37,12 +37,10 @@ func init() {
 	if initConfig() != nil {
 		fmt.Println("配置文件读取错误，请检查文件路径:", initConfig())
 	}
-	fmt.Printf("%+v", Data)
 }
 
 func initConfig() error {
 	env := os.Getenv("GIN_ENV")
-	fmt.Println(env, "---------------")
 	var err error
 	var data []byte
 	if env == "" {

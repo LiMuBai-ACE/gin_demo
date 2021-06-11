@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"fmt"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
 	"github.com/qiniu/api.v7/v7/auth/qbox"
@@ -23,11 +24,15 @@ func UpLoadFile(file multipart.File, fileSize int64) (string, int) {
 
 	cfg := storage.Config{
 		Zone:          &storage.ZoneHuadong,
-		UseCdnDomains: false,
-		UseHTTPS:      false,
+		UseCdnDomains: true,
+		UseHTTPS:      true,
 	}
 
-	putExtra := storage.PutExtra{}
+	putExtra := storage.PutExtra{
+		Params: map[string]string{
+			"name": "logo.png",
+		},
+	}
 
 	formUploader := storage.NewFormUploader(&cfg)
 	ret := storage.PutRet{}
@@ -36,6 +41,7 @@ func UpLoadFile(file multipart.File, fileSize int64) (string, int) {
 	if err != nil {
 		return "", errmsg.ERROR
 	}
+	fmt.Println(ImgUrl, ret.Key)
 	url := ImgUrl + ret.Key
 	return url, errmsg.SUCCSE
 }
