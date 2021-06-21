@@ -10,27 +10,27 @@ import (
 	"mime/multipart"
 )
 
-var AccessKey = utils.Data.Qiniu.Accesskey
-var SecretKey = utils.Data.Qiniu.Secretkey
-var Bucket = utils.Data.Qiniu.Bucket
-var ImgUrl = utils.Data.Qiniu.Sever
+var accessKey = utils.Data.Qiniu.Accesskey
+var secretKey = utils.Data.Qiniu.Secretkey
+var bucket = utils.Data.Qiniu.Bucket
+var imgUrl = utils.Data.Qiniu.Server
 
 func UpLoadFile(file multipart.File, fileSize int64) (string, int) {
 	putPolicy := storage.PutPolicy{
-		Scope: Bucket,
+		Scope: bucket,
 	}
-	mac := qbox.NewMac(AccessKey, SecretKey)
+	mac := qbox.NewMac(accessKey, secretKey)
 	upToken := putPolicy.UploadToken(mac)
 
 	cfg := storage.Config{
 		Zone:          &storage.ZoneHuadong,
 		UseCdnDomains: true,
-		UseHTTPS:      true,
+		UseHTTPS:      false,
 	}
 
 	putExtra := storage.PutExtra{
 		Params: map[string]string{
-			"name": "logo.png",
+			"x:name": "log.png",
 		},
 	}
 
@@ -41,7 +41,7 @@ func UpLoadFile(file multipart.File, fileSize int64) (string, int) {
 	if err != nil {
 		return "", errmsg.ERROR
 	}
-	fmt.Println(ImgUrl, ret.Key)
-	url := ImgUrl + ret.Key
+	fmt.Println(ret)
+	url := imgUrl + ret.Key
 	return url, errmsg.SUCCSE
 }

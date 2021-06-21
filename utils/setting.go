@@ -26,7 +26,7 @@ type DataStruct struct {
 		Accesskey string
 		Secretkey string
 		Bucket    string
-		Sever     string
+		Server    string
 	}
 }
 
