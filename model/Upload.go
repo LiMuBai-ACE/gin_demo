@@ -28,16 +28,12 @@ func UpLoadFile(file multipart.File, fileSize int64) (string, int) {
 		UseHTTPS:      false,
 	}
 
-	putExtra := storage.PutExtra{
-		Params: map[string]string{
-			"x:name": "log.png",
-		},
-	}
+	putExtra := storage.PutExtra{}
 
 	formUploader := storage.NewFormUploader(&cfg)
 	ret := storage.PutRet{}
 
-	err := formUploader.PutWithoutKey(context.Background(), &ret, upToken, file, fileSize, &putExtra)
+	err := formUploader.Put(context.Background(), &ret, upToken, "111.png", file, fileSize, &putExtra)
 	if err != nil {
 		return "", errmsg.ERROR
 	}
