@@ -15,5 +15,6 @@ qiniu: #七牛云
   accesskey: "pWaI8lq9elb356iJcpJxqbpRJrYh_WmV0wEiC_56"
   secretkey: "P_8t85mLW7_tWWMABOASZmMPPiqlLHCd3AS_TSuI"
   bucket: "gin-demo"
-  server: "http://file.limubai-top.com/"
+  server: "http://file.limubai.top/"
+
 
