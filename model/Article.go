@@ -38,6 +38,7 @@ func CheckArt(id int, title string) (data Article, error interface{}) {
 	return article, nil
 }
 
+// 阅读量加1
 func UpdateReading(id int) int {
 	err := Db.Model(&Article{}).Where("id = ?", id).UpdateColumn("reading", gorm.Expr("reading+ ?", 1)).Error
 	if err != nil {

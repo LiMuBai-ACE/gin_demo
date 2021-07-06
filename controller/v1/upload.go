@@ -8,9 +8,11 @@ import (
 )
 
 func UpLoad(c *gin.Context) {
-	var file model.File
-	c.ShouldBindJSON(&file)
-	url, code := model.UpLoadFile(file.File, file.FileName, file.Type)
+	file, fileHeader, _ := c.Request.FormFile("file")
+	fileSize := fileHeader.Size
+	fileName := fileHeader.Filename
+
+	url, code := model.UpLoadFile(file, fileSize, fileName)
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg":  errmsg.GetErrmsg(code),
