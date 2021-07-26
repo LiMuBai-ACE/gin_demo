@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"golang.org/x/crypto/scrypt"
 	"log"
+	"os"
 	"regexp"
 )
 
@@ -25,4 +26,15 @@ func ScryptStr(str string) string {
 	}
 	fstr := base64.StdEncoding.EncodeToString(HashStr)
 	return fstr
+}
+
+//判断文件是否存在
+
+func IsFileExist(filename string) bool {
+	_, err := os.Stat(filename)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return true
+
 }
