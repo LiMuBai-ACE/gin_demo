@@ -17,6 +17,7 @@ const (
 	ERROR_EMAIL_ID_email        = 1009
 	ERROR_User_NO_RIGHT         = 1010
 	ERROR_User_PASSWORD_Confirm = 1011
+	ERROR_Img_Error             = 1012
 
 	// code = 2000...文章模块的错误
 	// code = 3000...分类模块的错误
@@ -37,6 +38,7 @@ var codemsg = map[int]string{
 	ERROR_EMAIL_WRONG:           "邮箱格式不正确,请传入正确的邮箱账号",
 	ERROR_EMAIL_ID_email:        "请传入id或者邮箱账号来查看用户信息",
 	ERROR_User_PASSWORD_Confirm: "密码不一致,请修改后再次提交",
+	ERROR_Img_Error:             "图片格式错误",
 }
 
 func GetErrmsg(code int) string {

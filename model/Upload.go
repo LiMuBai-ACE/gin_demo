@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/base64"
+	"fmt"
 	"gin_demo/utils"
 	"gin_demo/utils/errmsg"
 	"io/ioutil"
@@ -22,7 +23,9 @@ type File struct {
 }
 
 func UpLoadFile(file File) (string, int) {
+
 	b, _ := regexp.MatchString(`^data:\s*image\/(\w+);base64,`, file.File)
+	fmt.Println(b, file.File)
 	if !b {
 		return "", errmsg.ERROR
 	}
