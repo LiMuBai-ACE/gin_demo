@@ -6,6 +6,7 @@ import (
 	"gin_demo/utils"
 	"gin_demo/weather"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 //routerV1 接口的第一个版本
@@ -52,6 +53,12 @@ func InitRouter() {
 		router.GET("article", v1.GetArticle)
 		router.GET("update/reading", v1.UpdateReading)
 		router.GET("articles", v1.GetArticleList)
+	}
+
+	//文件服务
+	file := r.Group("/")
+	{
+		file.StaticFS("/images", http.Dir("images"))
 	}
 
 	//关于天气的

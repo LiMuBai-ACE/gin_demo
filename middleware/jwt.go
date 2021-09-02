@@ -20,8 +20,8 @@ type MyClaims struct {
 
 //生成token
 func SetToken(email string) (string, int) {
-	//过期时间 十小时
-	expireTime := time.Now().Add(10 * time.Hour)
+	//过期时间 7天
+	expireTime := time.Now().Add(7 * 24 * time.Hour)
 	SetClaims := MyClaims{
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(), // 过期时间

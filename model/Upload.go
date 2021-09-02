@@ -19,7 +19,33 @@ var ImgUrl = utils.Data.Qiniu.Server
 type File struct {
 	File string `json:"file"`
 	Name string `json:"name"`
-	Type string `json:"type"`
+}
+
+//上传到本地 然后再上传云端
+func UpLoadLocalFile(file File) (string, int) {
+	b, _ := regexp.MatchString(`^data:\s*image\/(\w+);base64,`, file.File)
+	if !b {
+		return "", errmsg.ERROR
+	}
+
+	re, _ := regexp.Compile(`^data:\s*image\/(\w+);base64,`)
+
+	base64Str := re.ReplaceAllString(file.File, "")
+
+	date := time.Now().Format("2006-01-02")
+
+	if ok := utils.IsFileExist("./images/" + date); !ok {
+		os.Mkdir("./images/"+date, 0666)
+	}
+	var file1 string = "./images" + "/" + date + "/" + file.Name
+	byte, _ := base64.StdEncoding.DecodeString(base64Str)
+
+	err := ioutil.WriteFile(file1, byte, 0666)
+	if err != nil {
+		return "图片上传失败", errmsg.ERROR
+	} else {
+		return "images" + "/" + date + "/" + file.Name, errmsg.SUCCSE
+	}
 }
 
 func UpLoadFile(file File) (string, int) {
@@ -40,7 +66,6 @@ func UpLoadFile(file File) (string, int) {
 	if ok := utils.IsFileExist("./images/" + date); !ok {
 		os.Mkdir("./images/"+date, 0666)
 	}
-
 	//curFileStr := strconv.FormatInt(time.Now().UnixNano(), 10)
 
 	//r := rand.New(rand.NewSource(time.Now().UnixNano()))

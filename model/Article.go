@@ -21,7 +21,7 @@ type Article struct {
 	Desc      string   `gorm:"type:varchar(200);not null;comment:'文章简介'" json:"desc"`
 	Content   string   `gorm:"type:longtext;not null;comment:'文章内容'" json:"content"`
 	Reading   int      `gorm:"type:int;comment:'阅读量'" json:"reading"`
-	//Img       string     `gorm:"type:varchar(250);not null;comment:'文章图片'" json:"img"`
+	Img       string   `gorm:"type:varchar(250);not null;comment:'文章图片'" json:"img"`
 }
 
 //查询文章是否存在 并返回
@@ -68,7 +68,7 @@ func GetArtList(pageSize int, PageNum int, cid int) ([]Article, int) {
 		}
 	} else {
 		// 预加载 Preload
-		err := Db.Preload("Category").Preload("User").Preload("Tag").Limit(pageSize).Offset((PageNum - 1) * pageSize).Find(&article).Count(&total).Error
+		err := Db.Preload("Category").Preload("User").Preload("Tag").Limit(pageSize).Offset((PageNum - 1) * pageSize).Order("updated_at desc").Find(&article).Count(&total).Error
 		if err != nil && err != gorm.ErrRecordNotFound {
 			return nil, 0
 		}
